@@ -39,6 +39,25 @@ namespace Catalog.API.Profiles
             // GRPC Mappings
             CreateMap<ProductRead, GrpcCatalogProduct>()
                 .ForMember(dest => dest.ProductId, option => option.MapFrom(src => src.Id));
+
+            CreateMap<ProductRead, GrpcCatalogProductDetailed>()
+                .ForMember(dest => dest.Id, option => option.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Name, option => option.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Description, option => option.MapFrom(src => src.Description))
+                .ForMember(dest => dest.Price, option => option.MapFrom(src => (double?)src.Price))
+                .ForMember(dest => dest.Mrp, option => option.MapFrom(src => (double)src.MRP))
+                .ForMember(dest => dest.CatalogTypeId, option => option.MapFrom(src => src.CatalogTypeId))
+                .ForMember(dest => dest.CatalogType, option => option.MapFrom(src => src.CatalogType))
+                .ForMember(dest => dest.CatalogBrandId, option => option.MapFrom(src => src.CatalogBrandId))
+                .ForMember(dest => dest.CatalogBrand, option => option.MapFrom(src => src.CatalogBrand))
+                .ForMember(dest => dest.AvailableStock, option => option.MapFrom(src => src.AvailableStock))
+                .ForMember(dest => dest.RestockThreshold, option => option.MapFrom(src => src.RestockThreshold))
+                .ForMember(dest => dest.MaxStockThreshold, option => option.MapFrom(src => src.MaxStockThreshold))
+                .ForMember(dest => dest.ImageId, option => option.MapFrom(src => src.ImageId))
+                .ForMember(dest => dest.ImageName, option => option.MapFrom(src => src.ImageName))
+                .ForMember(dest => dest.ImageCaption, option => option.MapFrom(src => src.ImageCaption))
+                .ForMember(dest => dest.ImageData, option => option.MapFrom(src => src.ImageData));
+
         }
     }
 }

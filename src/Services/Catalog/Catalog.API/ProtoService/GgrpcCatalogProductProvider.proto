@@ -1,13 +1,19 @@
 syntax = "proto3";
 import "google/protobuf/wrappers.proto";
-
 option csharp_namespace = "Catalog.API.ProtoService";
 
 service GrpcCatalogProductProvider {
 	rpc GrpcGetAllProductsLean(GrpcEmptyRequest) returns (GrpcCatalogProductList);
+	rpc GrpcGetAllProducts(GrpcEmptyRequest) returns (GrpcCatalogProductDetailedList);
+	rpc GrpcGetProductByBrandId(GrpcIdRequest) returns (GrpcCatalogProductDetailedList);
+	rpc GrpcGetProductByCatalogTypeId(GrpcIdRequest) returns (GrpcCatalogProductDetailedList);
+	rpc GrpcGetProductById(GrpcIdRequest) returns (GrpcCatalogProductDetailedList);
 }
 
 message GrpcEmptyRequest{}
+message GrpcIdRequest {
+	int32 id = 1;
+}
 
 message GrpcCatalogProduct {
 	int32 productId = 1;
@@ -18,3 +24,28 @@ message GrpcCatalogProduct {
 message GrpcCatalogProductList{
 	repeated GrpcCatalogProduct products = 1;
 }
+
+message GrpcCatalogProductDetailed {
+	int32 id = 1;
+	google.protobuf.StringValue name = 2;
+	google.protobuf.StringValue description = 3;
+	google.protobuf.DoubleValue price = 4;
+	double mrp = 5;
+	int32 catalogTypeId = 6;
+	google.protobuf.StringValue CatalogType = 7;
+
+	int32 CatalogBrandId = 8;
+	google.protobuf.StringValue CatalogBrand = 9;
+	int32 AvailableStock = 10;
+	int32 RestockThreshold = 11;
+	int32 MaxStockThreshold = 12;
+	int32 ImageId = 13;
+	google.protobuf.StringValue ImageName = 14;
+	google.protobuf.StringValue ImageCaption = 15;
+	google.protobuf.StringValue ImageData = 16;
+}
+
+message GrpcCatalogProductDetailedList {
+	repeated GrpcCatalogProductDetailed products = 1;
+}
+

@@ -25,5 +25,45 @@ namespace Catalog.API.InterServiceCommunication.SyncDataService
 
             return response;
         }
+
+        public override async Task<GrpcCatalogProductDetailedList> GrpcGetAllProducts(GrpcEmptyRequest request, ServerCallContext context)
+        {
+            var products = await productService.GetAllProductsAsync();
+            var productList = mapper.Map<List<GrpcCatalogProductDetailed>>(products);
+            var response = new GrpcCatalogProductDetailedList();
+            productList.ForEach(x => response.Products.Add(x));
+
+            return response;
+        }
+
+        public override async Task<GrpcCatalogProductDetailedList> GrpcGetProductByBrandId(GrpcIdRequest request, ServerCallContext context)
+        {
+            var products = await productService.GetProductByBrandIdAsync(request.Id);
+            var productList = mapper.Map<List<GrpcCatalogProductDetailed>>(products);
+            var response = new GrpcCatalogProductDetailedList();
+            productList.ForEach(x => response.Products.Add(x));
+
+            return response;
+        }
+
+        public override async Task<GrpcCatalogProductDetailedList> GrpcGetProductByCatalogTypeId(GrpcIdRequest request, ServerCallContext context)
+        {
+            var products = await productService.GetProductByCatalogTypeIdAsync(request.Id);
+            var productList = mapper.Map<List<GrpcCatalogProductDetailed>>(products);
+            var response = new GrpcCatalogProductDetailedList();
+            productList.ForEach(x => response.Products.Add(x));
+
+            return response;
+        }
+
+        public override async Task<GrpcCatalogProductDetailedList> GrpcGetProductById(GrpcIdRequest request, ServerCallContext context)
+        {
+            var products = await productService.GetProductByIdAsync(request.Id);
+            var productList = mapper.Map<List<GrpcCatalogProductDetailed>>(products);
+            var response = new GrpcCatalogProductDetailedList();
+            productList.ForEach(x => response.Products.Add(x));
+
+            return response;
+        }
     }
 }
