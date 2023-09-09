@@ -1,4 +1,4 @@
-namespace Catalog.API
+namespace AdminBff
 {
     public class WeatherForecast
     {
