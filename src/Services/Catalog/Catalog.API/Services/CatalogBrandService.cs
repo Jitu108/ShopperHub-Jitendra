@@ -28,10 +28,10 @@ namespace Catalog.API.Services
             return brandRepo.UpdateCatalogBrandAsync(brandModel);
         }
 
-        public Task<bool> DeleteCatalogBrandAsync(int brandId) =>
+        public Task<bool> DeleteCatalogBrandAsync(long brandId) =>
         brandRepo.DeleteCatalogBrandAsync(brandId);
 
-        public async Task<CatalogBrandRead> GetCatalogBrandByIdAsync(int catalogBrandId)
+        public async Task<CatalogBrandRead> GetCatalogBrandByIdAsync(long catalogBrandId)
         {
             var brand = await brandRepo.GetCatalogBrandByIdAsync(catalogBrandId);
             var brandDto = mapper.Map<CatalogBrandRead>(brand);

@@ -29,6 +29,7 @@
   </ItemGroup>
     <ItemGroup>
 	    <Protobuf Include="ProtoClient\GrpcCatalogProductProvider.proto" GrpcServices="Client" />
+		<Protobuf Include="ProtoService\GrpcDiscountProductProvider.proto" GrpcServices="Server" />
     </ItemGroup>
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 

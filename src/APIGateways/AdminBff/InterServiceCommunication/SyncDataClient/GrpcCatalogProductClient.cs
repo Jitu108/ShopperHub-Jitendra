@@ -4,7 +4,7 @@ using Catalog.API.ProtoService;
 using Grpc.Net.Client;
 using Polly;
 
-namespace AdminBff.InterServiceCommunication.SyncDataService
+namespace AdminBff.InterServiceCommunication.SyncDataClient
 {
     public class GrpcCatalogProductClient : ICatalogProductClient
     {
@@ -42,7 +42,7 @@ namespace AdminBff.InterServiceCommunication.SyncDataService
             {
                 await policy.ExecuteAsync(async () =>
                 {
-                    var request = new GrpcEmptyRequest();
+                    var request = new GrpcProductEmptyRequest();
                     var response = await client.GrpcGetAllProductsAsync(request);
                     products = mapper.Map<IEnumerable<ProductRead>>(response.Products).ToList();
 
@@ -75,7 +75,7 @@ namespace AdminBff.InterServiceCommunication.SyncDataService
             {
                 await policy.ExecuteAsync(async () =>
                 {
-                    var request = new GrpcIdRequest();
+                    var request = new GrpcProductIdRequest();
                     request.Id = catalogBrandId;
                     var response = await client.GrpcGetProductByBrandIdAsync(request);
                     products = mapper.Map<IEnumerable<ProductRead>>(response.Products).ToList();
@@ -108,7 +108,7 @@ namespace AdminBff.InterServiceCommunication.SyncDataService
             {
                 await policy.ExecuteAsync(async () =>
                 {
-                    var request = new GrpcIdRequest();
+                    var request = new GrpcProductIdRequest();
                     request.Id = catalogtypeId;
                     var response = await client.GrpcGetProductByCatalogTypeIdAsync(request);
                     products = mapper.Map<IEnumerable<ProductRead>>(response.Products).ToList();
@@ -142,7 +142,7 @@ namespace AdminBff.InterServiceCommunication.SyncDataService
             {
                 await policy.ExecuteAsync(async () =>
                 {
-                    var request = new GrpcIdRequest();
+                    var request = new GrpcProductIdRequest();
                     request.Id = productId;
                     var response = await client.GrpcGetProductByIdAsync(request);
                     product = mapper.Map<ProductRead>(response);
@@ -238,7 +238,7 @@ namespace AdminBff.InterServiceCommunication.SyncDataService
 
                 await policy.ExecuteAsync(async () =>
                 {
-                    var request = new GrpcIdRequest();
+                    var request = new GrpcProductIdRequest();
                     request.Id = productId;
                     var statusResponse = await client.GrpcDeleteProductAsync(request);
                     status = statusResponse.Response;

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using DiscountAPI.Data;
 using DiscountAPI.InterServiceCommunication.SyncDataClient;
+using DiscountAPI.InterServiceCommunication.SyncDataService;
 
 var builder = WebApplication.CreateBuilder(args);
 var Configuration = builder.Configuration;
@@ -45,8 +46,15 @@ await seeder.SeedAsyc(app);
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+app.UseCors();
 app.UseAuthorization();
 
-app.MapControllers();
+//app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapGrpcService<GrpcDiscountProductService>();
+});
 
 app.Run();

@@ -48,7 +48,7 @@ namespace DiscountAPI.Data.SqlDataStore.Repo
             return status > 0;
         }
 
-        public async Task<bool> UpdateDiscountAsync(int productId, decimal discount, bool isPrecent)
+        public async Task<bool> UpdateDiscountAsync(long productId, decimal discount, bool isPrecent)
         {
             if (isPrecent && discount > 100) discount = 100;
 

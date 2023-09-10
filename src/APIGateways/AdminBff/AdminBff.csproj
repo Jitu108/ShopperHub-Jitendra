@@ -16,5 +16,8 @@
   </ItemGroup>
 	<ItemGroup>
 		<Protobuf Include="ProtoClient\GrpcCatalogProductProvider.proto" GrpcServices="Client" />
+		<Protobuf Include="ProtoClient\GrpcCatalogBrandProvider.proto" GrpcServices="Client" />
+		<Protobuf Include="ProtoClient\GrpcCatalogTypeProvider.proto" GrpcServices="Client" />
+		<Protobuf Include="ProtoClient\GrpcDiscountProductProvider.proto" GrpcServices="Client" />
 	</ItemGroup>
 </Project>

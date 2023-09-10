@@ -1,6 +1,7 @@
 ﻿using AdminBff.Dtos;
 using AutoMapper;
 using Catalog.API.ProtoService;
+using DiscountAPI.ProtoService;
 
 namespace AdminBff.Profiles
 {
@@ -57,6 +58,24 @@ namespace AdminBff.Profiles
                 .ForMember(dest => dest.ImageName, option => option.MapFrom(src => src.ImageName))
                 .ForMember(dest => dest.ImageCaption, option => option.MapFrom(src => src.ImageCaption))
                 .ForMember(dest => dest.ImageData, option => option.MapFrom(src => src.ImageData));
+
+            CreateMap<CatalogBrandCreate, GrpcCatalogBrandToCreate>();
+
+            CreateMap<CatalogBrandUpdate, GrpcCatalogBrandToUpdate>();
+
+            CreateMap<GrpcCatalogBrand, CatalogBrandRead>();
+
+            CreateMap<CatalogTypeCreate, GrpcCatalogTypeToCreate>();
+
+            CreateMap<CatalogTypeUpdate, GrpcCatalogTypeToUpdate>();
+
+            CreateMap<GrpcCatalogType, CatalogTypeRead>();
+
+            CreateMap<GrpcProductDiscount, ProductDiscount>()
+                .ForMember(dest => dest.MRP, option => option.MapFrom(src => src.Mrp));
+
+
+            CreateMap<DiscountUpdateDto, GrpcDiscountUpdate>();
         }
     }
 }

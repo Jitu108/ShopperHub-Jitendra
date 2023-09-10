@@ -106,6 +106,8 @@ var builder = WebApplication.CreateBuilder(args);
             {
                 endpoints.MapControllers();
                 endpoints.MapGrpcService<GrpcCatalogProductService>();
+                endpoints.MapGrpcService<GrpcCatalogBrandService>();
+                endpoints.MapGrpcService<GrpcCatalogTypeService>();
 
                 endpoints.MapGet("/protos/GgrpcCatalogProductProvider.proto", async context =>
                 {

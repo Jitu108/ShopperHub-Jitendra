@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Catalog.API.ProtoService;
+using DiscountAPI.Dtos;
 using DiscountAPI.Entities;
 using DiscountAPI.Services;
 using Grpc.Net.Client;
@@ -45,7 +46,7 @@ namespace DiscountAPI.InterServiceCommunication.SyncDataClient
                 {
                     var request = new GrpcEmptyRequest();
                     var response = await client.GrpcGetAllProductsLeanAsync(request);
-                    var products = mapper.Map<IEnumerable<Product>>(response.Products);
+                    var products = mapper.Map<IEnumerable<ProductRead>>(response.Products);
 
                     await discountService.AddProductsAsync(products.ToList());
 

@@ -1,8 +1,10 @@
-﻿namespace DiscountAPI.Entities
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace DiscountAPI.Entities
 {
     public class Product
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public long ProductExternalId { get; set; }
         public string Name { get; set; }
         public Nullable<decimal> DiscountFlat { get; set; }

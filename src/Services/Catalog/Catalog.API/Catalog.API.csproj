@@ -27,12 +27,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ProtoClient\" />
     <Folder Include="Services\" />
   </ItemGroup>
 
 	<ItemGroup>
-		<Protobuf Include="ProtoService\GgrpcCatalogProductProvider.proto" GrpcServices="Server" />
+		<Protobuf Include="ProtoService\GrpcCatalogProductProvider.proto" GrpcServices="Server" />
+		<Protobuf Include="ProtoService\GrpcCatalogBrandProvider.proto" GrpcServices="Server" />
+		<Protobuf Include="ProtoService\GrpcCatalogTypeProvider.proto" GrpcServices="Server" />
+		<Protobuf Include="ProtoClient\GrpcDiscountProductProvider.proto" GrpcServices="Client" />
 	</ItemGroup>
 
 </Project>

@@ -7,7 +7,7 @@ namespace DiscountAPI.Data.Interface
         Task<bool> AddProductAsync(Product product);
         Task<bool> AddProductsAsync(List<Product> products);
         Task<bool> UpdateProductsAsync(List<Product> products);
-        Task<bool> UpdateDiscountAsync(int productId, decimal discount, bool isPrecent);
+        Task<bool> UpdateDiscountAsync(long productId, decimal discount, bool isPrecent);
         Task<IEnumerable<Product>> GetProductsAsync();
     }
 }

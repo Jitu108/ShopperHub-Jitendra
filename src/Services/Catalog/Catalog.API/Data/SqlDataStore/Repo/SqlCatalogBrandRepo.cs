@@ -29,7 +29,7 @@ namespace Catalog.API.Data.SqlDataStore.Repo
             return status > 0;
         }
 
-        public async Task<bool> DeleteCatalogBrandAsync(int brandId)
+        public async Task<bool> DeleteCatalogBrandAsync(long brandId)
         {
             var brandInDb = await context.CatalogBrands.Where(x => x.Id == brandId).FirstOrDefaultAsync();
             if (brandInDb != null)
@@ -41,7 +41,7 @@ namespace Catalog.API.Data.SqlDataStore.Repo
             return false;
         }
 
-        public async Task<CatalogBrand> GetCatalogBrandByIdAsync(int catalogBrandId)
+        public async Task<CatalogBrand> GetCatalogBrandByIdAsync(long catalogBrandId)
         {
             return await context.CatalogBrands.Where(x => x.Id == catalogBrandId).FirstOrDefaultAsync();
         }

@@ -29,12 +29,12 @@ namespace Catalog.API.Services
         }
         
 
-        public Task<bool> DeleteCatalogTypeAsync(int typeId)
+        public Task<bool> DeleteCatalogTypeAsync(long catalogtypeId)
         {
-            return typeRepo.DeleteCatalogTypeAsync(typeId);
+            return typeRepo.DeleteCatalogTypeAsync(catalogtypeId);
         }
 
-        public async Task<CatalogTypeRead> GetCatalogTypeByIdAsync(int catalogtypeId)
+        public async Task<CatalogTypeRead> GetCatalogTypeByIdAsync(long catalogtypeId)
         {
             var type = await typeRepo.GetCatalogTypeByIdAsync(catalogtypeId);
             var typesDto = mapper.Map<CatalogTypeRead>(type);

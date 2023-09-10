@@ -1,4 +1,6 @@
-﻿using DiscountAPI.Data.Interface;
+﻿using AutoMapper;
+using DiscountAPI.Data.Interface;
+using DiscountAPI.Dtos;
 using DiscountAPI.Entities;
 
 namespace DiscountAPI.Services
@@ -6,19 +8,24 @@ namespace DiscountAPI.Services
     public class DiscountService : IDiscountService
     {
         private readonly IDiscountRepo discountRepo;
+        private readonly IMapper mapper;
 
-        public DiscountService(IDiscountRepo discountRepo)
+        public DiscountService(IDiscountRepo discountRepo, IMapper mapper)
         {
             this.discountRepo = discountRepo;
+            this.mapper = mapper;
         }
 
-        public async Task<bool> AddProductAsync(Product product)
+        public async Task<bool> AddProductAsync(ProductDiscount product)
         {
-            return await discountRepo.AddProductAsync(product);
+            var productModel = mapper.Map<Product>(product);
+            return await discountRepo.AddProductAsync(productModel);
         }
 
-        public async Task AddProductsAsync(IList<Product> products)
+        public async Task AddProductsAsync(IList<ProductRead> productsRead)
         {
+            var products = mapper.Map<List<Product>>(productsRead);
+
             var productsList = await discountRepo.GetProductsAsync();
             var productIds = productsList.Select(x => x.ProductExternalId).ToList();
 
@@ -49,14 +56,16 @@ namespace DiscountAPI.Services
             await discountRepo.UpdateProductsAsync(productsToUpdate);
         }
 
-        public async Task<IEnumerable<Product>> GetProductsAsync()
+        public async Task<IEnumerable<ProductDiscount>> GetProductDiscountsAsync()
         {
-            return await discountRepo.GetProductsAsync();
+            var products = await discountRepo.GetProductsAsync();
+            var productDiscounts = mapper.Map<List<ProductDiscount>>(products);
+            return productDiscounts;
         }
 
-        public async Task<bool> UpdateDiscountAsync(int productId, decimal discount, bool isPrecent)
+        public async Task<bool> UpdateProductDiscountAsync(DiscountUpdateDto update)
         {
-            return await discountRepo.UpdateDiscountAsync(productId, discount, isPrecent);
+            return await discountRepo.UpdateDiscountAsync(update.ProductId, update.Discount, update.IsPercent);
         }
     }
 }

@@ -7,8 +7,8 @@ namespace Catalog.API.Services
     {
         Task<bool> AddCatalogBrandAsync(CatalogBrandCreate brand);
         Task<bool> UpdateCatalogBrandAsync(CatalogBrandUpdate brand);
-        Task<bool> DeleteCatalogBrandAsync(int brandId);
-        Task<CatalogBrandRead> GetCatalogBrandByIdAsync(int catalogBrandId);
+        Task<bool> DeleteCatalogBrandAsync(long brandId);
+        Task<CatalogBrandRead> GetCatalogBrandByIdAsync(long catalogBrandId);
         Task<IEnumerable<CatalogBrandRead>> GetCatalogBrandsAsync();
     }
 }

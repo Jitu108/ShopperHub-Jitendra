@@ -7,8 +7,8 @@ namespace Catalog.API.Services
     {
         Task<bool> AddCatalogTypeAsync(CatalogTypeCreate catalogType);
         Task<bool> UpdateCatalogTypeAsync(CatalogTypeUpdate type);
-        Task<bool> DeleteCatalogTypeAsync(int typeId);
-        Task<CatalogTypeRead> GetCatalogTypeByIdAsync(int catalogtypeId);
+        Task<bool> DeleteCatalogTypeAsync(long catalogtypeId);
+        Task<CatalogTypeRead> GetCatalogTypeByIdAsync(long catalogtypeId);
         Task<IEnumerable<CatalogTypeRead>> GetCatalogTypesAsync();
     }
 }

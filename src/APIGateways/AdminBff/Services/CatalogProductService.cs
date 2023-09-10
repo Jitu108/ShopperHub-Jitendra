@@ -1,5 +1,5 @@
 ﻿using AdminBff.Dtos;
-using AdminBff.InterServiceCommunication.SyncDataService;
+using AdminBff.InterServiceCommunication.SyncDataClient;
 
 namespace AdminBff.Services
 {

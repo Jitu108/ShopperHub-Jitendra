@@ -1,6 +1,6 @@
 ﻿using AdminBff.Dtos;
 
-namespace AdminBff.InterServiceCommunication.SyncDataService
+namespace AdminBff.InterServiceCommunication.SyncDataClient
 {
     public interface ICatalogProductClient
     {

@@ -3,27 +3,27 @@ import "google/protobuf/wrappers.proto";
 option csharp_namespace = "Catalog.API.ProtoService";
 
 service GrpcCatalogProductProvider {
-	rpc GrpcGetAllProductsLean(GrpcEmptyRequest) returns (GrpcCatalogProductList);
-	rpc GrpcGetAllProducts(GrpcEmptyRequest) returns (GrpcCatalogProductDetailedList);
-	rpc GrpcGetProductByBrandId(GrpcIdRequest) returns (GrpcCatalogProductDetailedList);
-	rpc GrpcGetProductByCatalogTypeId(GrpcIdRequest) returns (GrpcCatalogProductDetailedList);
-	rpc GrpcGetProductById(GrpcIdRequest) returns (GrpcCatalogProductDetailed);
-	rpc GrpcAddProduct(GrpcCatalogProductToCreate) returns(GrpcBool);
-	rpc GrpcUpdateProduct(GrpcCatalogProductToUpdate) returns(GrpcBool);
-	rpc GrpcDeleteProduct(GrpcIdRequest) returns(GrpcBool);
+	rpc GrpcGetAllProductsLean(GrpcProductEmptyRequest) returns (GrpcCatalogProductList);
+	rpc GrpcGetAllProducts(GrpcProductEmptyRequest) returns (GrpcCatalogProductDetailedList);
+	rpc GrpcGetProductByBrandId(GrpcProductIdRequest) returns (GrpcCatalogProductDetailedList);
+	rpc GrpcGetProductByCatalogTypeId(GrpcProductIdRequest) returns (GrpcCatalogProductDetailedList);
+	rpc GrpcGetProductById(GrpcProductIdRequest) returns (GrpcCatalogProductDetailed);
+	rpc GrpcAddProduct(GrpcCatalogProductToCreate) returns(GrpcProductBool);
+	rpc GrpcUpdateProduct(GrpcCatalogProductToUpdate) returns(GrpcProductBool);
+	rpc GrpcDeleteProduct(GrpcProductIdRequest) returns(GrpcProductBool);
 }
 
-message GrpcEmptyRequest{}
-message GrpcIdRequest {
+message GrpcProductEmptyRequest{}
+message GrpcProductIdRequest {
 	int64 id = 1;
 }
 
-message GrpcBool {
+message GrpcProductBool {
 	bool response = 1;
 }
 
 message GrpcCatalogProduct {
-	int32 productId = 1;
+	int64 productId = 1;
 	google.protobuf.StringValue name = 2;
 	float mrp = 3;
 }
@@ -33,15 +33,15 @@ message GrpcCatalogProductList{
 }
 
 message GrpcCatalogProductDetailed {
-	int32 id = 1;
+	int64 id = 1;
 	google.protobuf.StringValue name = 2;
 	google.protobuf.StringValue description = 3;
 	google.protobuf.DoubleValue price = 4;
 	double mrp = 5;
-	int32 catalogTypeId = 6;
+	int64 catalogTypeId = 6;
 	google.protobuf.StringValue CatalogType = 7;
 
-	int32 CatalogBrandId = 8;
+	int64 catalogBrandId = 8;
 	google.protobuf.StringValue CatalogBrand = 9;
 	int32 AvailableStock = 10;
 	int32 RestockThreshold = 11;
@@ -57,14 +57,14 @@ message GrpcCatalogProductDetailedList {
 }
 
 message GrpcCatalogProductToCreate {
-	int32 id = 1;
+	int64 id = 1;
 	google.protobuf.StringValue name = 2;
 	google.protobuf.StringValue description = 3;
 	google.protobuf.DoubleValue price = 4;
 	double mrp = 5;
-	int32 catalogTypeId = 6;
+	int64 catalogTypeId = 6;
 
-	int32 CatalogBrandId = 7;
+	int64 catalogBrandId = 7;
 	int32 AvailableStock = 8;
 	int32 RestockThreshold = 9;
 	int32 MaxStockThreshold = 10;
@@ -75,14 +75,14 @@ message GrpcCatalogProductToCreate {
 }
 
 message GrpcCatalogProductToUpdate {
-	int32 id = 1;
+	int64 id = 1;
 	google.protobuf.StringValue name = 2;
 	google.protobuf.StringValue description = 3;
 	google.protobuf.DoubleValue price = 4;
 	double mrp = 5;
-	int32 catalogTypeId = 6;
+	int64 catalogTypeId = 6;
 
-	int32 CatalogBrandId = 7;
+	int64 catalogBrandId = 7;
 	int32 AvailableStock = 8;
 	int32 RestockThreshold = 9;
 	int32 MaxStockThreshold = 10;

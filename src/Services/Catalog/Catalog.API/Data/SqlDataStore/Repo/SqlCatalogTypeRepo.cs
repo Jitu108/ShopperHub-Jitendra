@@ -37,7 +37,7 @@ namespace Catalog.API.Data.SqlDataStore.Repo
             return true;
         }
 
-        public async Task<bool> DeleteCatalogTypeAsync(int typeId)
+        public async Task<bool> DeleteCatalogTypeAsync(long typeId)
         {
             var typeInDb = await context.CatalogTypes.Where(x => x.Id == typeId).FirstOrDefaultAsync();
             if (typeInDb != null)
@@ -49,7 +49,7 @@ namespace Catalog.API.Data.SqlDataStore.Repo
             return false;
         }
 
-        public async Task<CatalogType> GetCatalogTypeByIdAsync(int catalogtypeId)
+        public async Task<CatalogType> GetCatalogTypeByIdAsync(long catalogtypeId)
         {
             return await context.CatalogTypes.Where(x => x.Id == catalogtypeId).FirstOrDefaultAsync();
         }

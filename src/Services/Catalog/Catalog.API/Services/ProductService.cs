@@ -2,6 +2,7 @@ using AutoMapper;
 using Catalog.API.Data.Interface;
 using Catalog.API.Dtos;
 using Catalog.API.Entities;
+using Catalog.API.InterServiceCommunication.SyncDataClient;
 using Catalog.API.RedisConfig;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
@@ -11,15 +12,18 @@ namespace Catalog.API.Services
     public class ProductService : IProductService
     {
         private readonly IProductRepo productRepo;
+        private readonly IDiscountProductClient discountProduct;
         private readonly IMapper mapper;
         private readonly IDistributedCache cache;
 
         public ProductService(
             IProductRepo productRepo,
+            IDiscountProductClient discountProduct,
             IMapper mapper,
             IDistributedCache distributedCache)
         {
             this.productRepo = productRepo;
+            this.discountProduct = discountProduct;
             this.mapper = mapper;
             this.cache = distributedCache;
         }
@@ -28,6 +32,8 @@ namespace Catalog.API.Services
         {
             var product = mapper.Map<Product>(productCreateDto);
             var status = await productRepo.AddProductAsync(product);
+            var productDiscount = mapper.Map<ProductDiscount>(product);
+            var status1 = await discountProduct.AddProductAsync(productDiscount);
 
             return status;
         }

@@ -6,8 +6,8 @@ namespace Catalog.API.Data.Interface
     {
         Task<bool> AddCatalogTypeAsync(CatalogType catalogType);
         Task<bool> UpdateCatalogTypeAsync(CatalogType catalogType);
-        Task<bool> DeleteCatalogTypeAsync(int typeId);
-        Task<CatalogType> GetCatalogTypeByIdAsync(int catalogtypeId);
+        Task<bool> DeleteCatalogTypeAsync(long typeId);
+        Task<CatalogType> GetCatalogTypeByIdAsync(long catalogtypeId);
         Task<IEnumerable<CatalogType>> GetCatalogTypesAsync();
     }
 }
