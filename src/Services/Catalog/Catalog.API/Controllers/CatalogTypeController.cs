@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Catalog.API.Dtos;
-using Catalog.API.Entities;
 using Catalog.API.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.API.Controllers
@@ -23,16 +21,15 @@ namespace Catalog.API.Controllers
         [HttpPost("Add", Name = "AddType")]
         public async Task<IActionResult> AddType(CatalogTypeCreate type)
         {
-            var typeModel = mapper.Map<CatalogType>(type);
-            await typeService.AddCatalogTypeAsync(typeModel);
+            
+            await typeService.AddCatalogTypeAsync(type);
             return Ok();
         }
 
         [HttpPut("Update", Name = "UpdateType")]
         public async Task<ActionResult<bool>> UpdateType(CatalogTypeUpdate type)
         {
-            var typeModel = mapper.Map<CatalogType>(type);
-            var status = await typeService.UpdateCatalogTypeAsync(typeModel);
+            var status = await typeService.UpdateCatalogTypeAsync(type);
             return Ok(status);
         }
 
@@ -47,16 +44,15 @@ namespace Catalog.API.Controllers
         public async Task<ActionResult<IEnumerable<CatalogTypeRead>>> GetAllTypes()
         {
             var types = await typeService.GetCatalogTypesAsync();
-            var typesDto = mapper.Map<IEnumerable<CatalogTypeRead>>(types);
-            return Ok(typesDto);
+            
+            return Ok(types);
         }
 
         [HttpGet("ById/{typeId}", Name = "GetTypeById")]
         public async Task<ActionResult<CatalogTypeRead>> GetTypeById(int typeId)
         {
             var type = await typeService.GetCatalogTypeByIdAsync(typeId);
-            var typeDto = mapper.Map<CatalogTypeRead>(type);
-            return Ok(typeDto);
+            return Ok(type);
         }
     }
 }

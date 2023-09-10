@@ -1,4 +1,6 @@
+using AutoMapper;
 using Catalog.API.Data.Interface;
+using Catalog.API.Dtos;
 using Catalog.API.Entities;
 
 namespace Catalog.API.Services
@@ -6,29 +8,42 @@ namespace Catalog.API.Services
     public class CatalogBrandService : ICatalogBrandService
     {
         private readonly ICatalogBrandRepo brandRepo;
+        private readonly IMapper mapper;
 
-        public CatalogBrandService(ICatalogBrandRepo brandRepo)
+        public CatalogBrandService(ICatalogBrandRepo brandRepo, IMapper mapper)
         {
             this.brandRepo = brandRepo;
+            this.mapper = mapper;
         }
 
-        public Task<bool> AddCatalogBrandAsync(CatalogBrand brand)
+        public Task<bool> AddCatalogBrandAsync(CatalogBrandCreate brand)
         {
-            return brandRepo.AddCatalogBrandAsync(brand);
+            var brandModel = mapper.Map<CatalogBrand>(brand);
+            return brandRepo.AddCatalogBrandAsync(brandModel);
         }
 
-        public Task<bool> UpdateCatalogBrandAsync(CatalogBrand brand)
+        public Task<bool> UpdateCatalogBrandAsync(CatalogBrandUpdate brand)
         {
-            return brandRepo.UpdateCatalogBrandAsync(brand);
+            var brandModel = mapper.Map<CatalogBrand>(brand);
+            return brandRepo.UpdateCatalogBrandAsync(brandModel);
         }
 
         public Task<bool> DeleteCatalogBrandAsync(int brandId) =>
         brandRepo.DeleteCatalogBrandAsync(brandId);
 
-        public Task<CatalogBrand> GetCatalogBrandByIdAsync(int catalogBrandId) =>
-        brandRepo.GetCatalogBrandByIdAsync(catalogBrandId);
+        public async Task<CatalogBrandRead> GetCatalogBrandByIdAsync(int catalogBrandId)
+        {
+            var brand = await brandRepo.GetCatalogBrandByIdAsync(catalogBrandId);
+            var brandDto = mapper.Map<CatalogBrandRead>(brand);
+            return brandDto;
+        }
 
-        public Task<IEnumerable<CatalogBrand>> GetCatalogBrandsAsync() =>
-        brandRepo.GetCatalogBrandsAsync();
+        public async Task<IEnumerable<CatalogBrandRead>> GetCatalogBrandsAsync()
+        {
+            var brands = await brandRepo.GetCatalogBrandsAsync();
+            var brandsDto = mapper.Map<IEnumerable<CatalogBrandRead>>(brands).ToList();
+            return brandsDto;
+        }
+        
     }
 }

@@ -26,16 +26,14 @@ namespace Catalog.API.Controllers
         [HttpPost("Add", Name = "AddBrand")]
         public async Task<ActionResult<bool>> AddBrand(CatalogBrandCreate brand)
         {
-            var brandModel = mapper.Map<CatalogBrand>(brand);
-            var status = await brandService.AddCatalogBrandAsync(brandModel);
+            var status = await brandService.AddCatalogBrandAsync(brand);
             return Ok(status);
         }
 
         [HttpPut("Update", Name = "UpdateBrand")]
         public async Task<ActionResult<bool>> UpdateBrand(CatalogBrandUpdate brand)
         {
-            var brandModel = mapper.Map<CatalogBrand>(brand);
-            var status = await brandService.UpdateCatalogBrandAsync(brandModel);
+            var status = await brandService.UpdateCatalogBrandAsync(brand);
             return Ok(status);
         }
 
@@ -50,16 +48,15 @@ namespace Catalog.API.Controllers
         public async Task<ActionResult<IEnumerable<CatalogBrandRead>>> GetAllBrands()
         {
             var brands = await brandService.GetCatalogBrandsAsync();
-            var brandsDto = mapper.Map<IEnumerable<CatalogBrandRead>>(brands);
-            return Ok(brandsDto);
+            
+            return Ok(brands);
         }
 
         [HttpGet("ById/{brandId}", Name = "GetBrandById")]
         public async Task<ActionResult<CatalogBrandRead>> GetBrandById(int brandId)
         {
             var brand = await brandService.GetCatalogBrandByIdAsync(brandId);
-            var brandDto = mapper.Map<CatalogBrandRead>(brand);
-            return Ok(brandDto);
+            return Ok(brand);
         }
     }
 }
