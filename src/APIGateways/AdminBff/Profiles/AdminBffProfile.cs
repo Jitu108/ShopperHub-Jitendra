@@ -1,51 +1,19 @@
-﻿using AutoMapper;
-using Catalog.API.Dtos;
-using Catalog.API.Entities;
+﻿using AdminBff.Dtos;
+using AutoMapper;
 using Catalog.API.ProtoService;
-using System.Text;
 
-namespace Catalog.API.Profiles
+namespace AdminBff.Profiles
 {
-    public class CatalogProfile : Profile
+    public class AdminBffProfile : Profile
     {
-        public CatalogProfile()
+        public AdminBffProfile()
         {
-            CreateMap<CatalogBrandCreate, CatalogBrand>();
-            CreateMap<CatalogBrand, CatalogBrandRead>();
-
-
-            CreateMap<CatalogBrandUpdate, CatalogBrand>();
-
-            CreateMap<CatalogTypeCreate, CatalogType>();
-            CreateMap<CatalogType, CatalogTypeRead>();
-            CreateMap<CatalogTypeUpdate, CatalogType>();
-
-            CreateMap<ProductCreate, Product>();
-            CreateMap<ProductCreate, Image>()
-            .ForMember(dest => dest.ProductId, option => option.MapFrom(src => src.Id))
-            .ForMember(dest => dest.Id, option => option.MapFrom(src => src.ImageId))
-            .ForMember(dest => dest.Name, option => option.MapFrom(src => src.ImageName))
-            .ForMember(dest => dest.Caption, option => option.MapFrom(src => src.ImageCaption))
-            .ForMember(dest => dest.Data, option => option.MapFrom(src => src.ImageData != null ? Encoding.ASCII.GetBytes(src.ImageData) : Array.Empty<byte>()));
-
-            CreateMap<Product, ProductRead>()
-            .ForMember(dest => dest.ImageId, option => option.MapFrom(src => src.Image.Id))
-            .ForMember(dest => dest.ImageName, option => option.MapFrom(src => src.Image.Name))
-            .ForMember(dest => dest.ImageCaption, option => option.MapFrom(src => src.Image.Caption))
-            .ForMember(dest => dest.ImageData, option => option.MapFrom(src => Encoding.UTF8.GetString(src.Image.Data)))
-            .ForMember(dest => dest.CatalogBrand, option => option.MapFrom(src => src.CatalogBrand.Brand))
-            .ForMember(dest => dest.CatalogType, option => option.MapFrom(src => src.CatalogType.Type));
-
-            // GRPC Mappings
-            CreateMap<ProductRead, GrpcCatalogProduct>()
-                .ForMember(dest => dest.ProductId, option => option.MapFrom(src => src.Id));
-
-            CreateMap<ProductRead, GrpcCatalogProductDetailed>()
+            CreateMap<GrpcCatalogProductDetailed, ProductRead>()
                 .ForMember(dest => dest.Id, option => option.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Name, option => option.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Description, option => option.MapFrom(src => src.Description))
-                .ForMember(dest => dest.Price, option => option.MapFrom(src => (double?)src.Price))
-                .ForMember(dest => dest.Mrp, option => option.MapFrom(src => (double)src.MRP))
+                .ForMember(dest => dest.Price, option => option.MapFrom(src => (decimal?)src.Price))
+                .ForMember(dest => dest.MRP, option => option.MapFrom(src => (decimal)src.Mrp))
                 .ForMember(dest => dest.CatalogTypeId, option => option.MapFrom(src => src.CatalogTypeId))
                 .ForMember(dest => dest.CatalogType, option => option.MapFrom(src => src.CatalogType))
                 .ForMember(dest => dest.CatalogBrandId, option => option.MapFrom(src => src.CatalogBrandId))
@@ -58,12 +26,12 @@ namespace Catalog.API.Profiles
                 .ForMember(dest => dest.ImageCaption, option => option.MapFrom(src => src.ImageCaption))
                 .ForMember(dest => dest.ImageData, option => option.MapFrom(src => src.ImageData));
 
-            CreateMap<GrpcCatalogProductToCreate, ProductCreate>()
+            CreateMap<ProductCreate, GrpcCatalogProductToCreate>()
                 .ForMember(dest => dest.Id, option => option.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Name, option => option.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Description, option => option.MapFrom(src => src.Description))
-                .ForMember(dest => dest.Price, option => option.MapFrom(src => (double?)src.Price))
-                .ForMember(dest => dest.MRP, option => option.MapFrom(src => (double)src.Mrp))
+                .ForMember(dest => dest.Price, option => option.MapFrom(src => (decimal?)src.Price))
+                .ForMember(dest => dest.Mrp, option => option.MapFrom(src => (decimal)src.MRP))
                 .ForMember(dest => dest.CatalogTypeId, option => option.MapFrom(src => src.CatalogTypeId))
                 .ForMember(dest => dest.CatalogBrandId, option => option.MapFrom(src => src.CatalogBrandId))
                 .ForMember(dest => dest.AvailableStock, option => option.MapFrom(src => src.AvailableStock))
@@ -74,12 +42,12 @@ namespace Catalog.API.Profiles
                 .ForMember(dest => dest.ImageCaption, option => option.MapFrom(src => src.ImageCaption))
                 .ForMember(dest => dest.ImageData, option => option.MapFrom(src => src.ImageData));
 
-            CreateMap<GrpcCatalogProductToUpdate, ProductCreate>()
+            CreateMap<ProductCreate, GrpcCatalogProductToUpdate>()
                 .ForMember(dest => dest.Id, option => option.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Name, option => option.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Description, option => option.MapFrom(src => src.Description))
-                .ForMember(dest => dest.Price, option => option.MapFrom(src => (double?)src.Price))
-                .ForMember(dest => dest.MRP, option => option.MapFrom(src => (double)src.Mrp))
+                .ForMember(dest => dest.Price, option => option.MapFrom(src => (decimal?)src.Price))
+                .ForMember(dest => dest.Mrp, option => option.MapFrom(src => (decimal)src.MRP))
                 .ForMember(dest => dest.CatalogTypeId, option => option.MapFrom(src => src.CatalogTypeId))
                 .ForMember(dest => dest.CatalogBrandId, option => option.MapFrom(src => src.CatalogBrandId))
                 .ForMember(dest => dest.AvailableStock, option => option.MapFrom(src => src.AvailableStock))
@@ -89,7 +57,6 @@ namespace Catalog.API.Profiles
                 .ForMember(dest => dest.ImageName, option => option.MapFrom(src => src.ImageName))
                 .ForMember(dest => dest.ImageCaption, option => option.MapFrom(src => src.ImageCaption))
                 .ForMember(dest => dest.ImageData, option => option.MapFrom(src => src.ImageData));
-
         }
     }
 }

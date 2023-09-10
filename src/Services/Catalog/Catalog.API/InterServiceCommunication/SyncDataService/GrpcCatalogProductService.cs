@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Catalog.API.Dtos;
 using Catalog.API.ProtoService;
 using Catalog.API.Services;
 using Grpc.Core;
@@ -56,13 +57,37 @@ namespace Catalog.API.InterServiceCommunication.SyncDataService
             return response;
         }
 
-        public override async Task<GrpcCatalogProductDetailedList> GrpcGetProductById(GrpcIdRequest request, ServerCallContext context)
+        public override async Task<GrpcCatalogProductDetailed> GrpcGetProductById(GrpcIdRequest request, ServerCallContext context)
         {
-            var products = await productService.GetProductByIdAsync(request.Id);
-            var productList = mapper.Map<List<GrpcCatalogProductDetailed>>(products);
-            var response = new GrpcCatalogProductDetailedList();
-            productList.ForEach(x => response.Products.Add(x));
+            var product = await productService.GetProductByIdAsync(request.Id);
+            var response = mapper.Map<GrpcCatalogProductDetailed>(product);
 
+            return response;
+        }
+
+        public override async Task<GrpcBool> GrpcAddProduct(GrpcCatalogProductToCreate request, ServerCallContext context)
+        {
+            var product = mapper.Map<ProductCreate>(request);
+            var status = await productService.AddProductAsync(product);
+            var response = new GrpcBool();
+            response.Response = status;
+            return response;
+        }
+
+        public override async Task<GrpcBool> GrpcUpdateProduct(GrpcCatalogProductToUpdate request, ServerCallContext context)
+        {
+            var product = mapper.Map<ProductCreate>(request);
+            var status = await productService.UpdateProductAsync(product);
+            var response = new GrpcBool();
+            response.Response = status;
+            return response;
+        }
+
+        public override async Task<GrpcBool> GrpcDeleteProduct(GrpcIdRequest request, ServerCallContext context)
+        {
+            var status = await productService.DeleteProductAsync(request.Id);
+            var response = new GrpcBool();
+            response.Response = status;
             return response;
         }
     }

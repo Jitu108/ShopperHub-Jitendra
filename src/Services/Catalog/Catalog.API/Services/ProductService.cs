@@ -3,6 +3,7 @@ using Catalog.API.Data.Interface;
 using Catalog.API.Dtos;
 using Catalog.API.Entities;
 using Catalog.API.RedisConfig;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 
 namespace Catalog.API.Services
@@ -23,20 +24,25 @@ namespace Catalog.API.Services
             this.cache = distributedCache;
         }
 
-        public async Task<bool> AddProductAsync(Product product)
+        public async Task<bool> AddProductAsync(ProductCreate productCreateDto)
         {
+            var product = mapper.Map<Product>(productCreateDto);
             var status = await productRepo.AddProductAsync(product);
 
             return status;
         }
 
-        public async Task<bool> UpdateProductAsync(Product product)
+        public async Task<bool> UpdateProductAsync(ProductCreate product)
         {
-            if (product.Id == 0) return false;
+            var productModel = mapper.Map<Product>(product);
+            var image = mapper.Map<Image>(product);
+            productModel.Image = image;
+            productModel.Id = product.Id;
+            
             var isProductExist = await productRepo.IsProductExist(product.Id);
             if (!isProductExist) return false;
 
-            var status = await productRepo.UpdateProductAsync(product);
+            var status = await productRepo.UpdateProductAsync(productModel);
 
             return status;
         }
@@ -79,11 +85,6 @@ namespace Catalog.API.Services
             var productDto = mapper.Map<ProductRead>(data);
 
             return productDto;
-        }
-
-        public  async Task UpdateProductsPriceAsync(List<Product> products)
-        {
-            await productRepo.UpdateProductsPriceAsync(products);
         }
     }
 }

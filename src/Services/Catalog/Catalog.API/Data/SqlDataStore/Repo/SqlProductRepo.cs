@@ -1,6 +1,7 @@
 ﻿using Catalog.API.Data.Interface;
 using Catalog.API.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Linq;
 
 namespace Catalog.API.Data.SqlDataStore.Repo
@@ -31,8 +32,9 @@ namespace Catalog.API.Data.SqlDataStore.Repo
 
         public async Task<Product> GetProductByIdAsync(long productId)
         {
-            return await GetProductQueryable()
+            var product = await GetProductQueryable()
                 .Where(x => x.Id == productId).FirstOrDefaultAsync();
+            return product;
         }
 
         public async Task<IEnumerable<Product>> GetProductByBrandIdAsync(long catalogBrandId)
@@ -64,36 +66,38 @@ namespace Catalog.API.Data.SqlDataStore.Repo
 
         public async Task<bool> UpdateProductAsync(Product product)
         {
-            //var previousImage = context.Images.Where(x => x.ProductId == product.Id).FirstOrDefault();
-            //var productInDb = context.Products.Where(x => x.Id == product.Id).First();
+            var previousImage = context.Images.Where(x => x.ProductId == product.Id).FirstOrDefault();
+            var productInDb = context.Products.Where(x => x.Id == product.Id).First();
 
-            //if (product.Image.Id == 0)
-            //{
-            //    if(previousImage != null) context.Images.Remove(previousImage);
+            if ((!string.IsNullOrEmpty(product.Image.Name) || !string.IsNullOrEmpty(product.Image.Caption)))
+            {
+                if (product.Image.Id == 0)
+                {
+                    if (previousImage != null) context.Images.Remove(previousImage);
 
-            //    context.Images.Add(product.Image);
-            //}
-            //else
-            //{
-            //    previousImage.Caption = product.Image.Caption;
-            //    previousImage.Data = product.Image.Data;
-            //}
+                    context.Images.Add(product.Image);
+                }
+                else
+                {
+                    previousImage.Caption = product.Image.Caption;
+                    previousImage.Data = product.Image.Data;
+                }
+            }
 
-            //productInDb.Name = product.Name;
-            //productInDb.Description = product.Description;
-            //productInDb.Price = product.Price;
-            //productInDb.CatalogTypeId = product.CatalogTypeId;
-            //productInDb.CatalogBrandId = product.CatalogBrandId;
-            //productInDb.AvailableStock = product.AvailableStock;
-            //productInDb.RestockThreshold = product.RestockThreshold;
-            //productInDb.MaxStockThreshold = product.MaxStockThreshold;
-            //productInDb.OnReorder = product.OnReorder;
+            productInDb.Name = product.Name;
+            productInDb.Description = product.Description;
+            productInDb.Price = product.Price;
+            productInDb.CatalogTypeId = product.CatalogTypeId;
+            productInDb.CatalogBrandId = product.CatalogBrandId;
+            productInDb.AvailableStock = product.AvailableStock;
+            productInDb.RestockThreshold = product.RestockThreshold;
+            productInDb.MaxStockThreshold = product.MaxStockThreshold;
 
             try
             {
-                context.Products.Attach(product);
-                context.Entry(product).State = EntityState.Modified;
-                context.Entry(product.Image).State = EntityState.Modified;
+                //context.Products.Attach(product);
+                //context.Entry(product).State = EntityState.Modified;
+                //context.Entry(product.Image).State = EntityState.Modified;
 
 
                 await context.SaveChangesAsync();
@@ -119,7 +123,8 @@ namespace Catalog.API.Data.SqlDataStore.Repo
             return context.Products
             .Include(x => x.CatalogBrand)
             .Include(x => x.CatalogType)
-            .Include(x => x.Image);
+            .Include(x => x.Image)
+            .AsNoTracking();
         }
 
         public async Task UpdateProductsPriceAsync(List<Product> products)

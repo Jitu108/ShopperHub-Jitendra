@@ -3,7 +3,6 @@ import "google/protobuf/wrappers.proto";
 option csharp_namespace = "Catalog.API.ProtoService";
 
 service GrpcCatalogProductProvider {
-	rpc GrpcGetAllProductsLean(GrpcEmptyRequest) returns (GrpcCatalogProductList);
 	rpc GrpcGetAllProducts(GrpcEmptyRequest) returns (GrpcCatalogProductDetailedList);
 	rpc GrpcGetProductByBrandId(GrpcIdRequest) returns (GrpcCatalogProductDetailedList);
 	rpc GrpcGetProductByCatalogTypeId(GrpcIdRequest) returns (GrpcCatalogProductDetailedList);
@@ -20,16 +19,6 @@ message GrpcIdRequest {
 
 message GrpcBool {
 	bool response = 1;
-}
-
-message GrpcCatalogProduct {
-	int32 productId = 1;
-	google.protobuf.StringValue name = 2;
-	float mrp = 3;
-}
-
-message GrpcCatalogProductList{
-	repeated GrpcCatalogProduct products = 1;
 }
 
 message GrpcCatalogProductDetailed {
@@ -91,4 +80,3 @@ message GrpcCatalogProductToUpdate {
 	google.protobuf.StringValue ImageCaption = 13;
 	google.protobuf.StringValue ImageData = 14;
 }
-

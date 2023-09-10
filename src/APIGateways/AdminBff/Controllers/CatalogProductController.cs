@@ -1,34 +1,27 @@
-﻿using AutoMapper;
-using Catalog.API.Dtos;
-using Catalog.API.Entities;
-using Catalog.API.Services;
+﻿using AdminBff.Dtos;
+using AdminBff.Services;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Catalog.API.Controllers
+namespace AdminBff.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class CatalogProductController : ControllerBase
     {
-        private readonly IProductService productService;
-        private readonly IMapper mapper;
+        private readonly ICatalogProductService productService;
 
-        public ProductController(
-            IProductService productService,
-            IMapper mapper
-            )
+        public CatalogProductController(ICatalogProductService productService)
         {
             this.productService = productService;
-            this.mapper = mapper;
         }
 
         [HttpGet("ById/{productId}", Name = "GetProductById")]
         public async Task<ActionResult<ProductRead>> GetProductById(int productId)
         {
             var product = await productService.GetProductByIdAsync(productId);
-            var productDto = mapper.Map<ProductRead>(product);
-            return Ok(productDto);
+            return Ok(product);
         }
 
         [HttpGet("ByBrand/{brandId}", Name = "GetProductByBrandId")]
@@ -55,7 +48,6 @@ namespace Catalog.API.Controllers
         [HttpPost("Add", Name = "AddProduct")]
         public async Task<ActionResult<bool>> AddProduct(ProductCreate product)
         {
-            
             var status = await productService.AddProductAsync(product);
             return Ok(status);
         }
@@ -74,6 +66,5 @@ namespace Catalog.API.Controllers
             var status = await productService.DeleteProductAsync(productId);
             return Ok(status);
         }
-
     }
 }
