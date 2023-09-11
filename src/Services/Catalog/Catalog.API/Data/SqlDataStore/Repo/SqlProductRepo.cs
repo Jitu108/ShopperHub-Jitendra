@@ -87,6 +87,7 @@ namespace Catalog.API.Data.SqlDataStore.Repo
             productInDb.Name = product.Name;
             productInDb.Description = product.Description;
             productInDb.Price = product.Price;
+            productInDb.MRP = product.MRP;
             productInDb.CatalogTypeId = product.CatalogTypeId;
             productInDb.CatalogBrandId = product.CatalogBrandId;
             productInDb.AvailableStock = product.AvailableStock;

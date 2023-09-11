@@ -24,6 +24,9 @@ builder.Services.AddDbContext<DiscountDbContext>(options =>
     options.UseSqlServer(Configuration.GetConnectionString("DiscountConn"));
 });
 
+// Add GRPC
+builder.Services.AddGrpc();
+
 // Register Automapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

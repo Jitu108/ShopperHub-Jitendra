@@ -30,12 +30,23 @@ namespace Catalog.API.Services
 
         public async Task<bool> AddProductAsync(ProductCreate productCreateDto)
         {
-            var product = mapper.Map<Product>(productCreateDto);
-            var status = await productRepo.AddProductAsync(product);
-            var productDiscount = mapper.Map<ProductDiscount>(product);
-            var status1 = await discountProduct.AddProductAsync(productDiscount);
+            try
+            {
+                var product = mapper.Map<Product>(productCreateDto);
 
-            return status;
+                var image = mapper.Map<Image>(productCreateDto);
+                product.Image = image;
+
+                var status = await productRepo.AddProductAsync(product);
+                var productDiscount = mapper.Map<ProductDiscount>(product);
+                var status1 = await discountProduct.AddProductAsync(productDiscount);
+
+                return status;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
         }
 
         public async Task<bool> UpdateProductAsync(ProductCreate product)
