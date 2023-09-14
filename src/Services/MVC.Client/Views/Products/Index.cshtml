@@ -1,0 +1,194 @@
+﻿@model MVC.Client.ViewModels.ProductViewModel
+
+
+@{
+    ViewData["Title"] = "Catalog";
+}
+
+<h1>Catalog</h1>
+<div><img id="loading-image" src="~/loading.gif" hidden /></div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                 @Html.DisplayName("Name")
+                
+            </th>
+            <th>
+                @Html.DisplayName("Unit Price ($)")
+            </th>
+            <th>
+                @Html.DisplayName("Offer Price ($)")
+            </th>
+            <th>
+                @Html.DisplayName("Discount ($)")
+            </th>
+            <th>
+                @Html.DisplayName("Action")
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Products) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OfferPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Discount)
+            </td>
+            <td>
+                @Html.Hidden("ProductName_" + @item.Id, @item.Name)
+                @Html.Hidden("UnitPrice_" + @item.Id, @item.UnitPrice)
+                @Html.Hidden("AvailableQuantity_" + @item.Id, @item.AvailableQuantity)
+                <input type="button" id="Add_@item.Id" name="AddButton" onclick="Add(@item.Id)" title="Add" value="+" class="btn btn-outline-success"/>
+                <input type="button" id="Quantity_@item.Id" value="@item.Quantity" style="cursor:auto;width:50px;" class="btn btn-light" />
+                <input type="button" id="Remove_@item.Id" name="RemoveButton" onclick="Remove(@item.Id)" title="Add" value="-" class="btn btn-outline-danger" />
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<table  class="table">
+    <tr>
+        <td>
+            @Html.DisplayName("Total Items")
+            <br />
+            <label id="totalItems"></label>
+        </td>
+         <td>
+            @Html.DisplayName("Total Price")
+            <br />
+            <label id="totalPrice"></label>
+        </td>
+         <td>
+            @Html.DisplayName("Total Discount")
+            <br />
+            <label id="totalDiscount"></label>
+        </td>
+        <td colspan="2">
+            <input type="button" id="checkout" name="checkoutButton" onclick="checkout();" value="Checkout" class="btn btn-outline-success"/>
+        </td>
+    </tr>
+</table>
+
+@section Scripts {
+<script>
+
+function GetProductName(id) {
+    var nameElement = $("#ProductName_" + id)
+    var name = nameElement.val();
+    return name;
+}
+function GetUnitPrice(id) {
+    var unitPriceElement = $("#UnitPrice_" + id)
+    var unitPrice = unitPriceElement.val();
+    return unitPrice;
+}
+function Add(id) {
+    var availableQuantityElement = $("#AvailableQuantity_" + id)
+    var availableQuantity = parseInt(availableQuantityElement.val());
+
+    let labelElement = $("#Quantity_" + id)
+    let quantity = parseInt(labelElement.val());
+
+    let addElement = $("#Add_" + id)
+    let removeElement = $("#Remove_" + id)
+
+    if (availableQuantity > 0) {
+        quantity++;
+        availableQuantity--;
+
+        var name = GetProductName(id);
+        var price = GetUnitPrice(id);
+
+        addElement.prop( "disabled", true );
+        removeElement.prop( "disabled", true );
+
+        $.ajax({
+            url: "/Products/AddToCart",
+            method: "POST",
+            data: {
+                productId: id,
+                productName: name,
+                unitPrice: price
+            },
+            success: function(data) {
+                console.log(data);
+
+                $("#totalItems").text(data.totalItem);
+                $("#totalPrice").text("$ " + data.totalPrice);
+                $("#totalDiscount").text("$ " + data.totalDiscount);
+
+                labelElement.val(quantity);
+                availableQuantityElement.val(availableQuantity);
+
+                addElement.prop( "disabled", false );
+                removeElement.prop( "disabled", false );
+            },
+            error: function(err) {
+                console.error(err);
+            }
+        });
+    }
+}
+
+function Remove(id) {
+    var availableQuantityElement = $("#AvailableQuantity_" + id)
+    var availableQuantity = parseInt(availableQuantityElement.val());
+
+    let labelElement = $("#Quantity_" + id)
+    let quantity = parseInt(labelElement.val());
+
+    let addElement = $("#Add_" + id)
+    let removeElement = $("#Remove_" + id)
+
+    if (quantity > 0) {
+        quantity--;
+        availableQuantity++;
+
+        var name = GetProductName(id);
+        var price = GetUnitPrice(id);
+
+        addElement.prop( "disabled", true );
+        removeElement.prop( "disabled", true );
+
+        $.ajax({
+            url: "/Products/RemoveFromCart",
+            method: "POST",
+            data: {
+                productId: id,
+                productName: name,
+                unitPrice: price
+            },
+            success: function(data) {
+                labelElement.val(quantity);
+                availableQuantityElement.val(availableQuantity);
+
+                addElement.prop( "disabled", false );
+                removeElement.prop( "disabled", false );
+            },
+            error: function(err) {
+                console.error(err);
+            }
+        });
+    }
+}
+
+$('#loading-image').bind('ajaxStart', function(){
+    $(this).show();
+}).bind('ajaxStop', function(){
+    $(this).hide();
+});
+</script>
+
+}
