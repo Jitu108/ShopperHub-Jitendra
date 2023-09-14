@@ -1,8 +1,7 @@
-﻿namespace AdminBff.Dtos
+﻿namespace UserBff.Dtos
 {
-    public class ShoppingCartItemDto
+    public class ShoppingCartItemCreate
     {
-        public int Id { get; set; }
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public decimal UnitPrice { get; set; }

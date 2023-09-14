@@ -1,5 +1,5 @@
 ﻿
-namespace AdminBff.Dtos
+namespace UserBff.Dtos
 {
     public class ShoppingCartDto
     {

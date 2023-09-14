@@ -1,14 +1,13 @@
-﻿using AdminBff.Dtos;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using UserBff.Dtos;
 
-namespace AdminBff.Controllers
+namespace UserBff.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class BasketController : ControllerBase
     {
+
         [HttpGet("{userId}", Name = "GetBasket")]
         [ProducesResponseType(typeof(ShoppingCartDto), StatusCodes.Status200OK)]
         public async Task<ActionResult<ShoppingCartDto>> GetBasket(string userId)
@@ -25,7 +24,6 @@ namespace AdminBff.Controllers
             //var itemModel = mapper.Map<ShoppingCartItemDto>(item);
 
             //return Ok(await repo.UpdateBasket(userId, itemModel));
-
             return Ok();
         }
 
