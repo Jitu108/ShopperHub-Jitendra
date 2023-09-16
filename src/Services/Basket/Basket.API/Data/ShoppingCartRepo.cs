@@ -12,7 +12,7 @@ namespace Basket.API.Data
             this.context = context;
         }
 
-        public async Task<ShoppingCart> GetBasket(string userId)
+        public async Task<ShoppingCart> GetBasket(int userId)
         {
             return await context.Carts
             .Include(x => x.Items)
@@ -20,7 +20,7 @@ namespace Basket.API.Data
             .FirstOrDefaultAsync();
         }
 
-        public async Task<ShoppingCart> UpdateBasket(string userId, ShoppingCartItem item)
+        public async Task<ShoppingCart> UpdateBasket(int userId, ShoppingCartItem item)
         {
             var basketInRepo = await context.Carts
             .Include(x => x.Items)
@@ -56,14 +56,16 @@ namespace Basket.API.Data
             return basketInRepo;
         }
 
-        public async Task DeleteBasket(string userId)
+        public async Task<bool> DeleteBasket(int userId)
         {
             var basket = await context.Carts.Where(x => x.UserId == userId).FirstOrDefaultAsync();
             if (basket != null)
             {
                 context.Carts.Remove(basket);
-                context.SaveChanges();
+                var status = context.SaveChanges();
+                return status > 0;
             }
+            return false;
         }
 
     }

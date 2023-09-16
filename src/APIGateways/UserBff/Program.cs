@@ -7,10 +7,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<ICatalogProductClient, GrpcCatalogProductClient>();
 builder.Services.AddScoped<ICatalogBrandClient, GrpcCatalogBrandClient>();
 builder.Services.AddScoped<ICatalogTypeClient, GrpcCatalogTypeClient>();
+builder.Services.AddScoped<IBasketClient, GrpcBasketClient>();
 
 builder.Services.AddScoped<ICatalogProductService, CatalogProductService>();
 builder.Services.AddScoped<ICatalogBrandService, CatalogBrandService>();
 builder.Services.AddScoped<ICatalogTypeService, CatalogTypeService>();
+builder.Services.AddScoped<IBasketService, BasketService>();
 
 // Register Automapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

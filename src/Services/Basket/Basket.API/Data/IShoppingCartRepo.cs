@@ -4,9 +4,9 @@ namespace Basket.API.Data
 {
     public interface IShoppingCartRepo
     {
-        public Task<ShoppingCart> GetBasket(string userId);
-        public Task<ShoppingCart> UpdateBasket(string userId, ShoppingCartItem item);
+        public Task<ShoppingCart> GetBasket(int userId);
+        public Task<ShoppingCart> UpdateBasket(int userId, ShoppingCartItem item);
 
-        public Task DeleteBasket(string userName);
+        public Task<bool> DeleteBasket(int userId);
     }
 }

@@ -6,10 +6,10 @@ namespace Basket.API.Data.Entities
     public class ShoppingCart
     {
         public int Id { get; set; }
-        public string UserId { get; set; }
+        public int UserId { get; set; }
         public List<ShoppingCartItem> Items { get; set; } = new List<ShoppingCartItem>();
 
-        public ShoppingCart(string userId)
+        public ShoppingCart(int userId)
         {
             UserId = userId;
         }

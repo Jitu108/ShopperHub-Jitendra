@@ -2,7 +2,6 @@
 using Basket.API.Data;
 using Basket.API.Data.Entities;
 using Basket.API.Dtos;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Basket.API.Controllers
@@ -22,7 +21,7 @@ namespace Basket.API.Controllers
 
         [HttpGet("{userId}", Name = "GetBasket")]
         [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status200OK)]
-        public async Task<ActionResult<ShoppingCart>> GetBasket(string userId)
+        public async Task<ActionResult<ShoppingCart>> GetBasket(int userId)
         {
             var basket = await repo.GetBasket(userId);
             return Ok(basket ?? new ShoppingCart(userId));
@@ -30,7 +29,7 @@ namespace Basket.API.Controllers
 
         [HttpPost("{userId}", Name = "UpdateBasket")]
         [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status200OK)]
-        public async Task<ActionResult<ShoppingCart>> UpdateBasket(string userId, [FromBody] ShoppingCartItemCreate item)
+        public async Task<ActionResult<ShoppingCart>> UpdateBasket(int userId, [FromBody] ShoppingCartItemCreate item)
         {
             var itemModel = mapper.Map<ShoppingCartItem>(item);
 
@@ -39,7 +38,7 @@ namespace Basket.API.Controllers
 
         [HttpDelete("{userId}", Name = "DeleteBasket")]
         [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
-        public async Task<IActionResult> DeleteBasket(string userId)
+        public async Task<IActionResult> DeleteBasket(int userId)
         {
             await repo.DeleteBasket(userId);
             return Ok();
