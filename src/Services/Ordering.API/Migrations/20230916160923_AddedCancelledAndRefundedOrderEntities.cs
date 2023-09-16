@@ -1,0 +1,74 @@
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace Ordering.API.Migrations
+{
+    public partial class AddedCancelledAndRefundedOrderEntities : Migration
+    {
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.CreateTable(
+                name: "CancelledOrders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderId = table.Column<int>(type: "int", nullable: false),
+                    CancellationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CancellationReason = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CancelledOrders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CancelledOrders_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RefundedOrders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderId = table.Column<int>(type: "int", nullable: false),
+                    RefundDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RefundedAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RefundedOrders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RefundedOrders_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CancelledOrders_OrderId",
+                table: "CancelledOrders",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RefundedOrders_OrderId",
+                table: "RefundedOrders",
+                column: "OrderId");
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "CancelledOrders");
+
+            migrationBuilder.DropTable(
+                name: "RefundedOrders");
+        }
+    }
+}
