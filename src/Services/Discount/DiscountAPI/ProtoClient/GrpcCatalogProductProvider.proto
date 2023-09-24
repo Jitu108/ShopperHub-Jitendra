@@ -13,6 +13,7 @@ message GrpcCatalogProduct {
 	int32 productId = 1;
 	google.protobuf.StringValue name = 2;
 	float mrp = 3;
+	float price = 4;
 }
 
 message GrpcCatalogProductList{

@@ -109,6 +109,9 @@ namespace Catalog.API.Profiles
             CreateMap<GrpcProductDiscount, ProductDiscount>()
                 .ForMember(dest => dest.MRP, option => option.MapFrom(src => src.Mrp));
 
+            CreateMap<ProductDiscount, GrpcProductDiscount>()
+                .ForMember(dest => dest.Mrp, option => option.MapFrom(src => src.MRP));
+
             CreateMap<Product, ProductDiscount>()
                 .ForMember(dest => dest.ProductId, option => option.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Name, option => option.MapFrom(src => src.Name))

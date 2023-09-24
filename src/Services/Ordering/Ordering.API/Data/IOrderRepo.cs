@@ -1,4 +1,5 @@
 ﻿using Ordering.API.Data.Entities;
+using Ordering.API.Enums;
 
 namespace Ordering.API.Data
 {
@@ -7,5 +8,10 @@ namespace Ordering.API.Data
         Task<bool> AddOrder(Order order);
         Task<IEnumerable<Order>> GetOrderByUserId(int userId);
         Task<Order> GetOrderById(int id);
+        Task UpdateOrderStatus(int orderId, OrderStatus orderStatus);
+        Task CancelOrder(CancelledOrder order);
+        Task<int> SaveChange();
+        Task RefundOrder(RefundedOrder refundedOrder);
+        Task<RefundedOrder> GetRefundedOrder(int orderId);
     }
 }

@@ -90,9 +90,9 @@ namespace UserBff.InterServiceCommunication.SyncDataClient
             return cart;
         }
 
-        public async Task<ShoppingCartDto> UpdateBasket(int userId, ShoppingCartItemDto item)
+        public async Task<bool> UpdateBasket(ShoppingCartDto cart)
         {
-            var cart = new ShoppingCartDto();
+            var status = false;
 
             var policy = Policy
                 .Handle<Exception>()
@@ -109,12 +109,9 @@ namespace UserBff.InterServiceCommunication.SyncDataClient
             {
                 await policy.ExecuteAsync(async () =>
                 {
-                    var cartItem = mapper.Map<GrpcShoppingCartItem>(item);
-                    var request = new GrpcUpdateBasketRequest { UserId = userId, Item = cartItem  };
-                    var cartResponse = await client.GrpcUpdateBasketAsync(request);
-                    cart = mapper.Map<ShoppingCartDto>(cartResponse);
-                    //var items = mapper.Map<List<ShoppingCartItemDto>>(cartResponse.Items);
-                    //items.ForEach(x => cart.Items.Add(x));
+                    var grpcCart = mapper.Map<GrpcShoppingCart>(cart);
+                    var cartResponse = await client.GrpcUpdateBasketAsync(grpcCart);
+                    status = cartResponse.Response;
 
                 });
             }
@@ -123,7 +120,7 @@ namespace UserBff.InterServiceCommunication.SyncDataClient
                 logger.LogError($" =======> Could not Cart from Basket", ex.Message);
             }
 
-            return cart;
+            return status;
         }
     }
 }

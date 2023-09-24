@@ -20,53 +20,97 @@ namespace Basket.API.Data
             .FirstOrDefaultAsync();
         }
 
-        public async Task<ShoppingCart> UpdateBasket(int userId, ShoppingCartItem item)
+        //public async Task<ShoppingCart> UpdateBasket(int userId, ShoppingCartItem item)
+        //{
+        //    var basketInRepo = await context.Carts
+        //    .Include(x => x.Items)
+        //    .Where(x => x.UserId == userId)
+        //    .FirstOrDefaultAsync();
+
+        //    // If basket does not exist
+        //    if (basketInRepo == null)
+        //    {
+        //        var basket = new ShoppingCart(userId) { Items = new List<ShoppingCartItem> { item } };
+        //        await context.Carts.AddAsync(basket);
+        //        await context.SaveChangesAsync();
+        //        return basket;
+        //    }
+
+        //    // If basket exist 
+
+        //    if (basketInRepo.Items.Any(x => x.ProductId == item.ProductId))
+        //    {
+        //        // If Item exist
+        //        var itemToUpdate = basketInRepo.Items.Where(x => x.ProductId == item.ProductId).FirstOrDefault();
+        //        itemToUpdate.Quantity += 1;
+        //        context.SaveChanges();
+        //    }
+        //    else
+        //    {
+        //        // If item does not exist
+        //        //item.Cart = basketInRepo;
+        //        basketInRepo.Items.Add(item);
+        //        context.SaveChanges();
+        //    }
+
+        //    return basketInRepo;
+        //}
+
+        public async Task<bool> UpdateBasket(ShoppingCart cart)
         {
-            var basketInRepo = await context.Carts
-            .Include(x => x.Items)
-            .Where(x => x.UserId == userId)
-            .FirstOrDefaultAsync();
-
-            // If basket does not exist
-            if (basketInRepo == null)
+            try
             {
-                var basket = new ShoppingCart(userId) { Items = new List<ShoppingCartItem> { item } };
-                await context.Carts.AddAsync(basket);
-                await context.SaveChangesAsync();
-                return basket;
+                var cartInRepo = await context.Carts.Include(x => x.Items).Where(x => x.UserId == cart.UserId).FirstOrDefaultAsync();
+                if (cartInRepo == null)
+                {
+                    // Add Cart
+                    await context.Carts.AddAsync(cart);
+                    var status = await context.SaveChangesAsync();
+                    return status > 1;
+                }
+                else
+                {
+                    var cartItemIds = cartInRepo.Items.Select(x => x.Id).ToList();
+
+                    var cartItems = context.CartItems.Where(x => cartItemIds.Contains(x.Id)).ToList();
+
+                    context.CartItems.RemoveRange(cartItems);
+                    //context.SaveChanges();
+
+                    cart.Items.ForEach(x => x.Id = 0);
+                    
+                    cartInRepo.Items = cart.Items;
+                    var status = await context.SaveChangesAsync();
+                    return status > 1;
+                }
+                
             }
-
-            // If basket exist 
-
-            if (basketInRepo.Items.Any(x => x.ProductId == item.ProductId))
+            catch(Exception ex)
             {
-                // If Item exist
-                var itemToUpdate = basketInRepo.Items.Where(x => x.ProductId == item.ProductId).FirstOrDefault();
-                itemToUpdate.Quantity += 1;
-                context.SaveChanges();
+                throw ex;
             }
-            else
-            {
-                // If item does not exist
-                //item.Cart = basketInRepo;
-                basketInRepo.Items.Add(item);
-                context.SaveChanges();
-            }
-
-            return basketInRepo;
         }
 
         public async Task<bool> DeleteBasket(int userId)
         {
-            var basket = await context.Carts.Where(x => x.UserId == userId).FirstOrDefaultAsync();
-            if (basket != null)
+            try
             {
-                context.Carts.Remove(basket);
-                var status = context.SaveChanges();
-                return status > 0;
+                var basket = await context.Carts.Include(x => x.Items).Where(x => x.UserId == userId).FirstOrDefaultAsync();
+                if (basket != null)
+                {
+                    context.CartItems.RemoveRange(basket.Items);
+                    context.Carts.Remove(basket);
+                    var status = context.SaveChanges();
+                    return status > 0;
+                }
+                return false;
             }
-            return false;
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
+        
     }
 }

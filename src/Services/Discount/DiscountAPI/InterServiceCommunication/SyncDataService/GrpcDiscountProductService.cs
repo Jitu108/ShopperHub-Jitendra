@@ -26,6 +26,15 @@ namespace DiscountAPI.InterServiceCommunication.SyncDataService
             return response;
         }
 
+        public async override Task<GrpcDiscountBool> GrpcUpdateDiscountProduct(GrpcProductDiscount request, ServerCallContext context)
+        {
+            var discountProduct = mapper.Map<ProductDiscount>(request);
+            var status = await discountService.UpdateProductAsync(discountProduct);
+            var response = new GrpcDiscountBool();
+            response.Response = status;
+            return response;
+        }
+
         public override async Task<GrpcDiscountBool> GrpcUpdateProductDiscount(GrpcDiscountUpdate request, ServerCallContext context)
         {
             var discountUpdateDto = mapper.Map<DiscountUpdateDto>(request);

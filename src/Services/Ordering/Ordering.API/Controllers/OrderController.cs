@@ -30,11 +30,32 @@ namespace Ordering.API.Controllers
             return Ok(order);
         }
 
-        [HttpPost(Name = "AddOrder")]
+        [HttpPost("AddOrder", Name = "AddOrder")]
         public async Task<IActionResult> AddOrder(OrderCreate order)
         {
             var orderStatus = await orderService.AddOrder(order);
             return Ok(orderStatus);
+        }
+
+        [HttpPost("CancelOrder", Name = "CancelOrder")]
+        public async Task<IActionResult> CancelOrder(CancelledOrderDto order)
+        {
+            var orderStatus = await orderService.CancelOrder(order);
+            return Ok(orderStatus.ToString());
+        }
+
+        [HttpPost("RefundOrder", Name = "RefundOrder")]
+        public async Task<IActionResult> RefundOrder(int orderId)
+        {
+            var orderStatus = await orderService.RefundOrder(orderId);
+            return Ok(orderStatus.ToString());
+        }
+
+        [HttpGet("GetRefundedOrder/{orderId}", Name = "GetRefundedOrderByOrderId")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetRefundedOrderByOrderId(int orderId)
+        {
+            var order = await orderService.GetRefundedOrder(orderId);
+            return Ok(order);
         }
     }
 }

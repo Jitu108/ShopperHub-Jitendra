@@ -31,17 +31,12 @@ namespace Basket.API.InterServiceCommunication.SyncDataService
             return cart;
         }
 
-        public override async Task<GrpcShoppingCart> GrpcUpdateBasket(GrpcUpdateBasketRequest request, ServerCallContext context)
+        public override async Task<GrpcBasketBool> GrpcUpdateBasket(GrpcShoppingCart request, ServerCallContext context)
         {
-            var cartItem = mapper.Map<ShoppingCartItem>(request.Item);
-            var cartFromDb = await cartRepo.UpdateBasket(request.UserId, cartItem);
-
-            var cartItems = mapper.Map<List<GrpcShoppingCartItem>>(cartFromDb.Items);
-
-            var cart = mapper.Map<GrpcShoppingCart>(cartFromDb);
-            //cartItems.ForEach(x => cart.Items.Add(x));
-
-            return cart;
+            var cart = mapper.Map<ShoppingCart>(request);
+            var status = await cartRepo.UpdateBasket(cart);
+            var grpcStatus = new GrpcBasketBool { Response = status };
+            return grpcStatus;
         }
 
         public override async Task<GrpcBasketBool> GrpcDeleteBasket(GrpcDeleteBasketRequest request, ServerCallContext context)

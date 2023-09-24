@@ -3,15 +3,21 @@ using Basket.API.InterServiceCommunication.SyncDataService;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var Configuration = builder.Configuration;
 // Add services to the container.
 builder.Services.AddScoped<IShoppingCartRepo, ShoppingCartRepo>();
-// Register Db Context
-builder.Services.AddDbContext<ShoppingCartDbContext>(option =>
-{
-    option.UseInMemoryDatabase("InMem");
-});
 
+// Register Db Context
+var connectionString = Configuration.GetConnectionString("BasketConn");
+
+//builder.Services.AddDbContext<ShoppingCartDbContext>(option =>
+//{
+//    option.UseInMemoryDatabase("InMem");
+//});
+
+builder.Services.AddDbContext<ShoppingCartDbContext>(options =>
+    options.UseSqlServer(connectionString)
+); ;
 // Add GRPC
 builder.Services.AddGrpc();
 
@@ -29,6 +35,21 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        // Seed Data
+        var context = services.GetRequiredService<ShoppingCartDbContext>();
+        var seeder = new DatabaseSeeder();
+        await seeder.SeedAsync(context);
+    }
+    catch (Exception ex)
+    {
+    }
 }
 
 //app.UseHttpsRedirection();

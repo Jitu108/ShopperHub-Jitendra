@@ -27,21 +27,20 @@ namespace Basket.API.Controllers
             return Ok(basket ?? new ShoppingCart(userId));
         }
 
-        [HttpPost("{userId}", Name = "UpdateBasket")]
-        [ProducesResponseType(typeof(ShoppingCart), StatusCodes.Status200OK)]
-        public async Task<ActionResult<ShoppingCart>> UpdateBasket(int userId, [FromBody] ShoppingCartItemCreate item)
+        [HttpPost(Name = "UpdateBasket")]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        public async Task<ActionResult<bool>> UpdateBasket([FromBody] ShoppingCart cart)
         {
-            var itemModel = mapper.Map<ShoppingCartItem>(item);
-
-            return Ok(await repo.UpdateBasket(userId, itemModel));
+            var status = await repo.UpdateBasket(cart);
+            return Ok(status);
         }
 
         [HttpDelete("{userId}", Name = "DeleteBasket")]
-        [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         public async Task<IActionResult> DeleteBasket(int userId)
         {
-            await repo.DeleteBasket(userId);
-            return Ok();
+            var status = await repo.DeleteBasket(userId);
+            return Ok(status);
         }
 
     }

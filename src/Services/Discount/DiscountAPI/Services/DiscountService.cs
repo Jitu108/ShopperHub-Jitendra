@@ -22,6 +22,12 @@ namespace DiscountAPI.Services
             return await discountRepo.AddProductAsync(productModel);
         }
 
+        public async Task<bool> UpdateProductAsync(ProductDiscount product)
+        {
+            var productModel = mapper.Map<Product>(product);
+            return await discountRepo.UpdateProductsAsync(productModel);
+        }
+
         public async Task AddProductsAsync(IList<ProductRead> productsRead)
         {
             var products = mapper.Map<List<Product>>(productsRead);

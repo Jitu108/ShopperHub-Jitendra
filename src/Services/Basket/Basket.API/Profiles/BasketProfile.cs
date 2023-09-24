@@ -19,6 +19,9 @@ namespace Basket.API.Profiles
 
             CreateMap<ShoppingCart, GrpcShoppingCart>()
                 .ForMember(dest => dest.TotalPrice, option => option.MapFrom(src => (double)src.TotalPrice));
+
+            CreateMap<GrpcShoppingCart, ShoppingCart>()
+                .ForMember(dest => dest.TotalPrice, option => option.MapFrom(src => (decimal)src.TotalPrice));
         }
     }
 }

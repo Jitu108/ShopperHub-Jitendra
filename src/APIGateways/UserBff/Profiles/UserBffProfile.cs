@@ -2,6 +2,7 @@
 using Basket.API.ProtoService;
 using Catalog.API.ProtoService;
 using DiscountAPI.ProtoService;
+using Identity.API.ProtoService;
 using UserBff.Dtos;
 
 namespace AdminBff.Profiles
@@ -83,11 +84,20 @@ namespace AdminBff.Profiles
             CreateMap<GrpcShoppingCart, ShoppingCartDto>()
                 .ForMember(dest => dest.TotalPrice, option => option.MapFrom(src => (decimal)src.TotalPrice));
 
+            CreateMap<ShoppingCartDto, GrpcShoppingCart>()
+                .ForMember(dest => dest.TotalPrice, option => option.MapFrom(src => (double)src.TotalPrice));
+
             CreateMap<GrpcShoppingCartItem, ShoppingCartItemDto>()
                 .ForMember(dest => dest.UnitPrice, option => option.MapFrom(src => (decimal)src.UnitPrice));
 
             CreateMap<ShoppingCartItemDto, GrpcShoppingCartItem>()
                 .ForMember(dest => dest.UnitPrice, option => option.MapFrom(src => (double)src.UnitPrice));
+
+            // Identity
+            CreateMap<UserCreate, GrpcAddUserRequest>();
+            CreateMap<GrpcIdentityUser, UserDto>();
+            CreateMap<GrpcIdentityAuthenticateResponse, AuthUserDto>()
+                .ForMember(dest => dest.ExpiryDate, options => options.MapFrom(src => src.ExpiryDate.ToDateTime()));
         }
     }
 }

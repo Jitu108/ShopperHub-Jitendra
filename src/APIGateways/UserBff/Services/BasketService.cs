@@ -21,9 +21,9 @@ namespace UserBff.Services
             return basketClient.GetBasket(userId);
         }
 
-        public Task<ShoppingCartDto> UpdateBasket(int userId, ShoppingCartItemDto item)
+        public Task<bool> UpdateBasket(ShoppingCartDto cart)
         {
-            return basketClient.UpdateBasket(userId, item);
+            return basketClient.UpdateBasket(cart);
         }
     }
 }

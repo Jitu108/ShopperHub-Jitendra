@@ -22,6 +22,12 @@ namespace Ordering.API.Profiles
 
             CreateMap<OrderItemCreate, OrderItem>();
             CreateMap<OrderItem, OrderItemDto>();
+
+            CreateMap<CancelledOrderDto, CancelledOrder>();
+            CreateMap<CancelledOrder, CancelledOrderDto>();
+
+            CreateMap<RefundedOrder, RefundedOrderDto>();
+            CreateMap<RefundedOrderDto, RefundedOrder>();
         }
     }
 }

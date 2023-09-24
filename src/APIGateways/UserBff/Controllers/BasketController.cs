@@ -1,21 +1,21 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UserBff.Dtos;
 using UserBff.Services;
 
 namespace UserBff.Controllers
 {
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BasketController : ControllerBase
     {
         private readonly IBasketService basketService;
-        private readonly IMapper mapper;
 
-        public BasketController(IBasketService basketService, IMapper mapper)
+        public BasketController(IBasketService basketService)
         {
             this.basketService = basketService;
-            this.mapper = mapper;
         }
 
         [HttpGet("{userId}", Name = "GetBasket")]
@@ -23,16 +23,20 @@ namespace UserBff.Controllers
         public async Task<ActionResult<ShoppingCartDto>> GetBasket(int userId)
         {
             var basket = await basketService.GetBasket(userId);
-            return Ok(basket ?? new ShoppingCartDto(userId));
+            if(basket == null)
+            {
+                basket = new ShoppingCartDto();
+                basket.UserId = userId;
+            }
+            
+            return Ok(basket);
         }
 
-        [HttpPost("{userId}", Name = "UpdateBasket")]
-        [ProducesResponseType(typeof(ShoppingCartDto), StatusCodes.Status200OK)]
-        public async Task<ActionResult<ShoppingCartDto>> UpdateBasket(int userId, [FromBody] ShoppingCartItemCreate item)
+        [HttpPost(Name = "UpdateBasket")]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        public async Task<ActionResult<bool>> UpdateBasket(ShoppingCartDto cart)
         {
-            var itemModel = mapper.Map<ShoppingCartItemDto>(item);
-
-            return Ok(await basketService.UpdateBasket(userId, itemModel));
+            return Ok(await basketService.UpdateBasket(cart));
         }
 
         [HttpDelete("{userId}", Name = "DeleteBasket")]

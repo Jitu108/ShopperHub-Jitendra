@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Ordering.API.Data.Entities;
+using Ordering.API.Enums;
 
 namespace Ordering.API.Data
 {
@@ -33,6 +34,35 @@ namespace Ordering.API.Data
                 .Include(x => x.Items)
                 .Include(x => x.Addresses)
                 .Where(x => x.UserId == userId).ToListAsync();
+        }
+
+        
+
+        public async Task UpdateOrderStatus(int orderId, OrderStatus orderStatus)
+        {
+            var order = await context.Orders.Where(x => x.Id == orderId).FirstOrDefaultAsync();
+            order.OrderStatus = orderStatus;
+            
+        }
+
+        public async Task CancelOrder(CancelledOrder order)
+        {
+            await context.CancelledOrders.AddAsync(order);
+        }
+
+        public async Task<int> SaveChange()
+        {
+            return await context.SaveChangesAsync();
+        }
+
+        public async Task RefundOrder(RefundedOrder refundedOrder)
+        {
+            await context.RefundedOrders.AddAsync(refundedOrder);
+        }
+
+        public async Task<RefundedOrder> GetRefundedOrder(int orderId)
+        {
+            return await context.RefundedOrders.Where(x => x.OrderId == orderId).FirstOrDefaultAsync();
         }
     }
 }

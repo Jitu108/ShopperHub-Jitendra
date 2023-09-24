@@ -38,8 +38,17 @@ namespace DiscountAPI.Profiles
                 .ForMember(dest => dest.Mrp, options => options.MapFrom(src => src.MRP))
                 .ForMember(dest => dest.Price, options => options.MapFrom(src => src.Price));
 
+            CreateMap<ProductDiscount, Product>()
+                .ForMember(dest => dest.ProductExternalId, options => options.MapFrom(src => src.ProductId));
+
             CreateMap<GrpcProductDiscount, ProductDiscount>()
                 .ForMember(dest => dest.MRP, options => options.MapFrom(src => src.Mrp));
+
+            CreateMap<GrpcCatalogProduct, ProductRead>()
+                .ForMember(dest => dest.ProductExternalId, option => option.MapFrom(src => src.ProductId));
+
+            CreateMap<ProductRead, Product>()
+                .ForMember(dest => dest.DiscountFlat, options => options.MapFrom(src => (src.MRP > src.Price) && !src.IsDiscountPercent ? src.MRP - src.Price : 0));
         }
     }
 }

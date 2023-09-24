@@ -2,9 +2,9 @@
 {
     public enum OrderStatus
     {
-        Placed,
-        Delivered,
-        Cancelled,
-        Refunded
+        Placed = 1,
+        Delivered = 2,
+        Cancelled = 3,
+        Refunded = 4
     }
 }

@@ -61,6 +61,9 @@ namespace Catalog.API.Services
 
             var status = await productRepo.UpdateProductAsync(productModel);
 
+            var productDiscount = mapper.Map<ProductDiscount>(productModel);
+            var status1 = await discountProduct.UpdateProductAsync(productDiscount);
+
             return status;
         }
 

@@ -54,5 +54,38 @@ namespace Catalog.API.InterServiceCommunication.SyncDataClient
 
             return status;
         }
+
+        public async Task<bool> UpdateProductAsync(ProductDiscount product)
+        {
+            bool status = new();
+
+            var policy = Policy
+                .Handle<Exception>()
+                .WaitAndRetryAsync(2, retryAttempt =>
+                {
+                    logger.LogWarning($"=======> Trying to Product From Discount Service - Request Retry: {retryAttempt}");
+                    return TimeSpan.FromSeconds(Math.Pow(2, retryAttempt));
+                });
+
+            var channel = GrpcChannel.ForAddress(configuration["GrpcClient:DiscountService"]);
+            var client = new GrpcDiscountProductProvider.GrpcDiscountProductProviderClient(channel);
+
+            try
+            {
+                await policy.ExecuteAsync(async () =>
+                {
+                    var request = mapper.Map<GrpcProductDiscount>(product);
+                    var response = await client.GrpcUpdateDiscountProductAsync(request);
+                    status = response.Response;
+
+                });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError($" =======> Could not add Brand to Catalog", ex.Message);
+            }
+
+            return status;
+        }
     }
 }

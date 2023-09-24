@@ -62,5 +62,70 @@ namespace Ordering.API.Services
             }
             return orderDtos;
         }
+
+        public async Task<OrderStatusInfo> CancelOrder(CancelledOrderDto orderDto)
+        {
+            var order = await repo.GetOrderById(orderDto.OrderId);
+
+            if (order.OrderStatus == OrderStatus.Delivered)
+            {
+                return OrderStatusInfo.OrderCouldNotBeCancelledBecauseItIsDelivered;
+            }
+
+            if (order.OrderStatus == OrderStatus.Cancelled)
+            {
+                return OrderStatusInfo.OrderCouldNotBeCancelledBecauseItIsAlreadyCancelled;
+            }
+
+            if (order.OrderStatus == OrderStatus.Cancelled)
+            {
+                return OrderStatusInfo.OrderCouldNotBeCancelledBecauseItIsAlreadyRefunded;
+            }
+
+
+            await repo.UpdateOrderStatus(orderDto.OrderId, OrderStatus.Cancelled);
+
+            var cancelledOrder = mapper.Map<CancelledOrder>(orderDto);
+            cancelledOrder.CancellationDate = DateTime.Now;
+
+            await repo.CancelOrder(cancelledOrder);
+
+            var status = await repo.SaveChange();
+
+            return OrderStatusInfo.OrderCancelled;
+        }
+
+        public async Task<OrderStatusInfo> RefundOrder(int orderId)
+        {
+            var order = await repo.GetOrderById(orderId);
+
+            if(order.OrderStatus != OrderStatus.Cancelled)
+            {
+                return OrderStatusInfo.OrderCouldNotBeRefundedBecauseItIsNotCancelled;
+            }
+            await repo.UpdateOrderStatus(orderId, OrderStatus.Refunded);
+
+            var refundedOrder = new RefundedOrder
+            {
+                OrderId = orderId,
+                RefundedAmount = order.TotalPrice,
+                RefundDate = DateTime.Now
+            };
+
+            await repo.RefundOrder(refundedOrder);
+
+            await repo.SaveChange();
+
+            return OrderStatusInfo.OrderRefunded;
+        }
+
+        public async Task<RefundedOrderDto> GetRefundedOrder(int orderId)
+        {
+            RefundedOrder refundedOrder = await repo.GetRefundedOrder(orderId);
+
+            var refundedOrderDto = mapper.Map<RefundedOrderDto>(refundedOrder);
+
+            return refundedOrderDto;
+        }
     }
 }

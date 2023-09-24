@@ -21,6 +21,21 @@ namespace DiscountAPI.Data.SqlDataStore.Repo
             return status > 0;
         }
 
+        public async Task<bool> UpdateProductsAsync(Product product)
+        {
+
+            var productInDb = await context.Products.Where(x => x.ProductExternalId == product.ProductExternalId).FirstOrDefaultAsync();
+
+            productInDb.Name = product.Name;
+            productInDb.MRP = product.MRP;
+            productInDb.DiscountFlat = product.DiscountFlat;
+            productInDb.DiscountPercent = product.DiscountPercent;
+            productInDb.IsDiscountPercent = product.IsDiscountPercent;
+
+            var status = await context.SaveChangesAsync();
+            return status > 0;
+        }
+
         public async Task<bool> UpdateProductsAsync(List<Product> products)
         {
             var productIds = products.Select(x => x.ProductExternalId).ToList();
