@@ -15,6 +15,8 @@ namespace Ordering.API.Data
         public async Task<bool> AddOrder(Order order)
         {
             order.OrderDate = DateTime.Now;
+            order.OrderStatus = OrderStatus.Placed;
+
             await context.Orders.AddAsync(order);
             var status = await context.SaveChangesAsync();
             return status > 0;
@@ -24,7 +26,7 @@ namespace Ordering.API.Data
         {
             return await context.Orders
                 .Include(x => x.Items)
-                .Include(x => x.Addresses)
+                .Include(x => x.DeliveryAddress)
                 .Where(x => x.Id == id).FirstOrDefaultAsync();
         }
 
@@ -32,11 +34,9 @@ namespace Ordering.API.Data
         {
             return await context.Orders
                 .Include(x => x.Items)
-                .Include(x => x.Addresses)
+                .Include(x => x.DeliveryAddress)
                 .Where(x => x.UserId == userId).ToListAsync();
         }
-
-        
 
         public async Task UpdateOrderStatus(int orderId, OrderStatus orderStatus)
         {
@@ -47,6 +47,7 @@ namespace Ordering.API.Data
 
         public async Task CancelOrder(CancelledOrder order)
         {
+            order.CancellationDate = DateTime.Now;
             await context.CancelledOrders.AddAsync(order);
         }
 
@@ -60,9 +61,16 @@ namespace Ordering.API.Data
             await context.RefundedOrders.AddAsync(refundedOrder);
         }
 
-        public async Task<RefundedOrder> GetRefundedOrder(int orderId)
+        public async Task<List<CancelledOrder>> GetCancelledOrders(int userId)
         {
-            return await context.RefundedOrders.Where(x => x.OrderId == orderId).FirstOrDefaultAsync();
+            return await context.CancelledOrders.Include(x => x.Order)
+                .Where(x => x.Order.UserId == userId).ToListAsync();
+        }
+
+        public async Task<List<RefundedOrder>> GetRefundedOrders(int userId)
+        {
+            return await context.RefundedOrders.Include(x => x.Order)
+                .Where(x => x.Order.UserId == userId).ToListAsync();
         }
     }
 }

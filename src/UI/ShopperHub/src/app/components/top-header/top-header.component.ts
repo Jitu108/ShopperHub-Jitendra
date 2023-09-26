@@ -26,9 +26,10 @@ export class TopHeaderComponent implements OnInit {
   ngOnDestroy(): void {
     this.userSub.unsubscribe();
   }
-
+  gotOrders() {
+    this.router.navigate(['/order-list']);
+  }
   logout() {
-    debugger;
     this.identityService.logout();
     this.router.navigate(['/login'])
   }

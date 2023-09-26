@@ -18,7 +18,7 @@ import { ShoppingCart } from 'src/models/shopping-cart';
 })
 export class CheckoutComponent implements OnInit {
 
-  displayColumns: string[] = ['productId', 'productName', 'unitPrice', 'quantity', 'totalPrice'];
+  displayColumns: string[] = ['productName', 'unitPrice', 'quantity', 'totalPrice'];
   dataSource = new MatTableDataSource<BasketRead>();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -44,7 +44,7 @@ export class CheckoutComponent implements OnInit {
 
       var data = x.items.map(x => (new BasketRead(x.productId, x.productName, x.unitPrice, x.quantity)));
       data.forEach(x => x.totalPrice = x.quantity * x.unitPrice);
-      debugger;
+
       this.dataSource.data = data;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -65,7 +65,11 @@ export class CheckoutComponent implements OnInit {
   }
 
   placeorder() {
-    this.router.navigate(['/order-address'])
+    this.router.navigate(['/order-address'], { state: { cart: this.shoppingCart } })
+  }
+
+  onBackClick() {
+    this.router.navigate(['/products']);
   }
 
   ngOnDestroy(): void {

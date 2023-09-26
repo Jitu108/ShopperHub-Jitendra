@@ -17,7 +17,7 @@ var connectionString = Configuration.GetConnectionString("BasketConn");
 
 builder.Services.AddDbContext<ShoppingCartDbContext>(options =>
     options.UseSqlServer(connectionString)
-); ;
+);
 // Add GRPC
 builder.Services.AddGrpc();
 

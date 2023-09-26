@@ -12,8 +12,8 @@ using Ordering.API.Data;
 namespace Ordering.API.Migrations
 {
     [DbContext(typeof(OrderingDbContext))]
-    [Migration("20230916151522_AddedCancellationAndRefundEntities")]
-    partial class AddedCancellationAndRefundEntities
+    [Migration("20230924110428_Initialmigration")]
+    partial class Initialmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,9 +38,6 @@ namespace Ordering.API.Migrations
                     b.Property<string>("AddressLine2")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("AddressType")
-                        .HasColumnType("int");
-
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
@@ -53,7 +50,7 @@ namespace Ordering.API.Migrations
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PIN")
+                    b.Property<string>("Pin")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("State")
@@ -61,9 +58,34 @@ namespace Ordering.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("OrderId")
+                        .IsUnique();
 
                     b.ToTable("Address");
+                });
+
+            modelBuilder.Entity("Ordering.API.Data.Entities.CancelledOrder", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CancellationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CancellationReason")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("CancelledOrders");
                 });
 
             modelBuilder.Entity("Ordering.API.Data.Entities.Order", b =>
@@ -86,8 +108,8 @@ namespace Ordering.API.Migrations
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -105,8 +127,8 @@ namespace Ordering.API.Migrations
                     b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("ProductName")
                         .HasColumnType("nvarchar(max)");
@@ -124,10 +146,45 @@ namespace Ordering.API.Migrations
                     b.ToTable("OrderItems");
                 });
 
+            modelBuilder.Entity("Ordering.API.Data.Entities.RefundedOrder", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("RefundDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("RefundedAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("RefundedOrders");
+                });
+
             modelBuilder.Entity("Ordering.API.Data.Entities.Address", b =>
                 {
                     b.HasOne("Ordering.API.Data.Entities.Order", "Order")
-                        .WithMany("Addresses")
+                        .WithOne("DeliveryAddress")
+                        .HasForeignKey("Ordering.API.Data.Entities.Address", "OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("Ordering.API.Data.Entities.CancelledOrder", b =>
+                {
+                    b.HasOne("Ordering.API.Data.Entities.Order", "Order")
+                        .WithMany()
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -142,9 +199,20 @@ namespace Ordering.API.Migrations
                         .HasForeignKey("OrderId");
                 });
 
+            modelBuilder.Entity("Ordering.API.Data.Entities.RefundedOrder", b =>
+                {
+                    b.HasOne("Ordering.API.Data.Entities.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("Ordering.API.Data.Entities.Order", b =>
                 {
-                    b.Navigation("Addresses");
+                    b.Navigation("DeliveryAddress");
 
                     b.Navigation("Items");
                 });

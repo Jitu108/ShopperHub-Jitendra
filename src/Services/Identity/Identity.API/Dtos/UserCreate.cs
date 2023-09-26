@@ -1,7 +1,4 @@
-﻿using Identity.API.Data.Entities;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Identity.API.Dtos
+﻿namespace Identity.API.Dtos
 {
     public class UserCreate
     {

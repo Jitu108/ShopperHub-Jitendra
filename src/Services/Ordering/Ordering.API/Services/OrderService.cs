@@ -19,16 +19,9 @@ namespace Ordering.API.Services
         public async Task<bool> AddOrder(OrderCreate order)
         {
             var orderModel = mapper.Map<Order>(order);
-            
-            var billingAddress = mapper.Map<Address>(order.BillingAddress);
-            billingAddress.AddressType = AddressType.Billing;
-
             var deliveryAddress = mapper.Map<Address>(order.DeliveryAddress);
-            deliveryAddress.AddressType = AddressType.Delivery;
 
-            orderModel.Addresses = new List<Address>();
-            orderModel.Addresses.Add(billingAddress);
-            orderModel.Addresses.Add(deliveryAddress);
+            orderModel.DeliveryAddress = deliveryAddress;
 
             var status = await repo.AddOrder(orderModel);
             return status;
@@ -37,10 +30,8 @@ namespace Ordering.API.Services
         public async Task<OrderDto> GetOrderById(int id)
         {
             var order = await repo.GetOrderById(id);
-            var billingAddress = order.Addresses.Where(x => x.AddressType == AddressType.Billing).FirstOrDefault();
-            var deliveryAddress = order.Addresses.Where(x => x.AddressType == AddressType.Delivery).FirstOrDefault();
+            var deliveryAddress = order.DeliveryAddress;
             var orderDto = mapper.Map<OrderDto>(order);
-            if (billingAddress != null) orderDto.BillingAddress = mapper.Map<AddressDto>(billingAddress);
             if (deliveryAddress != null) orderDto.DeliveryAddress = mapper.Map<AddressDto>(deliveryAddress);
 
             return orderDto;
@@ -53,17 +44,15 @@ namespace Ordering.API.Services
             var orders = await repo.GetOrderByUserId(userId);
             foreach (var order in orders)
             {
-                var billingAddress = order.Addresses.Where(x => x.AddressType == AddressType.Billing).FirstOrDefault();
-                var deliveryAddress = order.Addresses.Where(x => x.AddressType == AddressType.Delivery).FirstOrDefault();
+                var deliveryAddress = order.DeliveryAddress;
                 var orderDto = mapper.Map<OrderDto>(order);
-                if (billingAddress != null) orderDto.BillingAddress = mapper.Map<AddressDto>(billingAddress);
                 if (deliveryAddress != null) orderDto.DeliveryAddress = mapper.Map<AddressDto>(deliveryAddress);
                 orderDtos.Add(orderDto);
             }
             return orderDtos;
         }
 
-        public async Task<OrderStatusInfo> CancelOrder(CancelledOrderDto orderDto)
+        public async Task<OrderStatusInfo> CancelOrder(CancelOrderDto orderDto)
         {
             var order = await repo.GetOrderById(orderDto.OrderId);
 
@@ -77,7 +66,7 @@ namespace Ordering.API.Services
                 return OrderStatusInfo.OrderCouldNotBeCancelledBecauseItIsAlreadyCancelled;
             }
 
-            if (order.OrderStatus == OrderStatus.Cancelled)
+            if (order.OrderStatus == OrderStatus.Refunded)
             {
                 return OrderStatusInfo.OrderCouldNotBeCancelledBecauseItIsAlreadyRefunded;
             }
@@ -119,13 +108,18 @@ namespace Ordering.API.Services
             return OrderStatusInfo.OrderRefunded;
         }
 
-        public async Task<RefundedOrderDto> GetRefundedOrder(int orderId)
+        public async Task<List<CancelledOrderDto>> GetCancelledOrders(int userId)
         {
-            RefundedOrder refundedOrder = await repo.GetRefundedOrder(orderId);
+            var cancelledOrders = await repo.GetCancelledOrders(userId);
+            var cancelledOrderDtos = mapper.Map<List<CancelledOrderDto>>(cancelledOrders);
+            return cancelledOrderDtos;
+        }
 
-            var refundedOrderDto = mapper.Map<RefundedOrderDto>(refundedOrder);
-
-            return refundedOrderDto;
+        public async Task<List<RefundedOrderDto>> GetRefundedOrders(int userId)
+        {
+            var refundedOrders = await repo.GetRefundedOrders(userId);
+            var refundedOrderDtos = mapper.Map<List<RefundedOrderDto>>(refundedOrders);
+            return refundedOrderDtos;
         }
     }
 }

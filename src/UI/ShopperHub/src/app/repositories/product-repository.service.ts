@@ -20,7 +20,6 @@ export class ProductRepositoryService {
           return throwError(errorResponse.error);
         }),
         tap(responseData => {
-          console.log(responseData);
         })
       );
   }

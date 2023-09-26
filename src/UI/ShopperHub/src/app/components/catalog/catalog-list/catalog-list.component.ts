@@ -53,9 +53,6 @@ export class CatalogListComponent implements OnInit {
         var item = this.shoppingCart.items.find(y => y.productId == x.id);
         var quantity = 0;
         if (item != undefined && item != null) {
-          if (item.quantity > 0) {
-            debugger;
-          }
           quantity = item.quantity;
         }
         return this.productService.getTypeFromProduct(

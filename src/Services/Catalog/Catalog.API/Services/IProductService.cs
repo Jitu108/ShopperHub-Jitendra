@@ -1,12 +1,9 @@
 using Catalog.API.Dtos;
-using Catalog.API.Entities;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.API.Services
 {
     public interface IProductService
     {
-        
         Task<ProductRead> GetProductByIdAsync(long productId);
         Task<IEnumerable<ProductRead>> GetProductByBrandIdAsync(long catalogBrandId);
         Task<IEnumerable<ProductRead>> GetProductByCatalogTypeIdAsync(long catalogtypeId);

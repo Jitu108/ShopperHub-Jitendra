@@ -11,6 +11,7 @@
     <PackageReference Include="Google.Protobuf" Version="3.24.3" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.57.0" />
     <PackageReference Include="Grpc.Net.Client" Version="2.57.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.22" />
     <PackageReference Include="Polly" Version="7.2.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
@@ -19,5 +20,6 @@
 		<Protobuf Include="ProtoClient\GrpcCatalogBrandProvider.proto" GrpcServices="Client" />
 		<Protobuf Include="ProtoClient\GrpcCatalogTypeProvider.proto" GrpcServices="Client" />
 		<Protobuf Include="ProtoClient\GrpcDiscountProductProvider.proto" GrpcServices="Client" />
+		<Protobuf Include="ProtoClient\GrpcIdentityProvider.proto" GrpcServices="Client" />
 	</ItemGroup>
 </Project>

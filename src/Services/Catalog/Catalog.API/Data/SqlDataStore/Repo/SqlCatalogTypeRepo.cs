@@ -22,15 +22,6 @@ namespace Catalog.API.Data.SqlDataStore.Repo
 
         public async Task<bool> UpdateCatalogTypeAsync(CatalogType type)
         {
-            // var typeInDb = await context.CatalogTypes.Where(x => x.Id == type.Id).FirstOrDefaultAsync();
-            // if (typeInDb != null)
-            // {
-            //     typeInDb.Type = type.Type;
-            //     await context.SaveChangesAsync();
-            //     return true;
-            // }
-            // return false;
-
             context.CatalogTypes.Attach(type);
             context.Entry<CatalogType>(type).State = EntityState.Modified;
             await context.SaveChangesAsync();

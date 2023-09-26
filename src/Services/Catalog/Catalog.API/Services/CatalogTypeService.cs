@@ -41,7 +41,6 @@ namespace Catalog.API.Services
             return typesDto;
         }
         
-
         public async Task<IEnumerable<CatalogTypeRead>> GetCatalogTypesAsync()
         {
             var types = await typeRepo.GetCatalogTypesAsync();

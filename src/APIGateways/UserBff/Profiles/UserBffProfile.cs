@@ -3,6 +3,7 @@ using Basket.API.ProtoService;
 using Catalog.API.ProtoService;
 using DiscountAPI.ProtoService;
 using Identity.API.ProtoService;
+using Ordering.API.ProtoService;
 using UserBff.Dtos;
 
 namespace AdminBff.Profiles
@@ -98,6 +99,37 @@ namespace AdminBff.Profiles
             CreateMap<GrpcIdentityUser, UserDto>();
             CreateMap<GrpcIdentityAuthenticateResponse, AuthUserDto>()
                 .ForMember(dest => dest.ExpiryDate, options => options.MapFrom(src => src.ExpiryDate.ToDateTime()));
+
+            // Order
+            CreateMap<OrderCreate, GrpcOrderCreate>()
+                .ForMember(dest => dest.TotalPrice, option => option.MapFrom(src => (double)src.TotalPrice));
+
+            CreateMap<OrderItemCreate, GrpcOrderItemCreate>()
+                .ForMember(dest => dest.UnitPrice, option => option.MapFrom(src => (double)src.UnitPrice));
+
+            CreateMap<AddressDto, GrpcAddressDto>();
+
+            CreateMap<GrpcOrderDto, OrderDto>()
+                .ForMember(dest => dest.TotalPrice, option => option.MapFrom(src => (decimal)src.TotalPrice))
+                .ForMember(dest => dest.OrderDate, option => option.MapFrom(src => src.OrderDate.ToDateTime()));
+
+            CreateMap<GrpcOrderItemDto, OrderItemDto>()
+                .ForMember(dest => dest.UnitPrice, option => option.MapFrom(src => (decimal)src.UnitPrice));
+
+            CreateMap<GrpcAddressDto, AddressDto>();
+
+            CreateMap<CancelOrderDto, GrpcCancelOrderDto>();
+
+            CreateMap<GrpcRefundedOrderDto, RefundedOrderDto>()
+            .ForMember(dest => dest.RefundDate, option => option.MapFrom(src => src.RefundDate.ToDateTime()))
+            .ForMember(dest => dest.RefundedAmount, option => option.MapFrom(src => (decimal)src.RefundedAmount));
+
+            CreateMap<GrpcCancelledOrderDto, CancelledOrderDto>()
+                .ForMember(dest => dest.CancellationDate, option => option.MapFrom(src => src.CancellationDate.ToDateTime()));
+
+            CreateMap<GrpcRefundedOrderDto, RefundedOrderDto>()
+                .ForMember(dest => dest.RefundedAmount, option => option.MapFrom(src => (decimal)src.RefundedAmount))
+                .ForMember(dest => dest.RefundDate, option => option.MapFrom(src => src.RefundDate.ToDateTime()));
         }
     }
 }

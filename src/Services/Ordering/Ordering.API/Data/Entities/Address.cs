@@ -13,8 +13,7 @@ namespace Ordering.API.Data.Entities
         public string AddressLine2 { get; set; }
         public string City { get; set; }
         public string State { get; set; }
-        public AddressType AddressType { get; set; }
-        public string PIN { get; set; }
+        public string Pin { get; set; }
         [ForeignKey("OrderId")]
         public Order Order { get; set; }
     }

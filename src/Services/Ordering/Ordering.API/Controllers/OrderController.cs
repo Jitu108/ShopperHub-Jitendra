@@ -23,8 +23,8 @@ namespace Ordering.API.Controllers
             return Ok(orders);
         }
 
-        [HttpGet("{id}", Name = "GetOrdersById")]
-        public async Task<ActionResult<OrderDto>> GetOrdersById(int id)
+        [HttpGet("{id}", Name = "GetOrderById")]
+        public async Task<ActionResult<OrderDto>> GetOrderById(int id)
         {
             var order = await orderService.GetOrderById(id);
             return Ok(order);
@@ -38,7 +38,7 @@ namespace Ordering.API.Controllers
         }
 
         [HttpPost("CancelOrder", Name = "CancelOrder")]
-        public async Task<IActionResult> CancelOrder(CancelledOrderDto order)
+        public async Task<IActionResult> CancelOrder(CancelOrderDto order)
         {
             var orderStatus = await orderService.CancelOrder(order);
             return Ok(orderStatus.ToString());
@@ -51,10 +51,17 @@ namespace Ordering.API.Controllers
             return Ok(orderStatus.ToString());
         }
 
-        [HttpGet("GetRefundedOrder/{orderId}", Name = "GetRefundedOrderByOrderId")]
-        public async Task<ActionResult<IEnumerable<OrderDto>>> GetRefundedOrderByOrderId(int orderId)
+        [HttpGet("GetCancelledOrders/{userId}", Name = "GetCancelledOrderByUserId")]
+        public async Task<ActionResult<IEnumerable<CancelledOrderDto>>> GetCancelledOrderByUserId(int userId)
         {
-            var order = await orderService.GetRefundedOrder(orderId);
+            var order = await orderService.GetCancelledOrders(userId);
+            return Ok(order);
+        }
+
+        [HttpGet("GetRefundedOrders/{userId}", Name = "GetRefundedOrderByUserId")]
+        public async Task<ActionResult<IEnumerable<RefundedOrderDto>>> GetRefundedOrderByUserId(int userId)
+        {
+            var order = await orderService.GetRefundedOrders(userId);
             return Ok(order);
         }
     }

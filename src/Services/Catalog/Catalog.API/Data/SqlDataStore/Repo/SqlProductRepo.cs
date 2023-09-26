@@ -1,8 +1,6 @@
 ﻿using Catalog.API.Data.Interface;
 using Catalog.API.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Linq;
 
 namespace Catalog.API.Data.SqlDataStore.Repo
 {
@@ -15,7 +13,6 @@ namespace Catalog.API.Data.SqlDataStore.Repo
             this.context = context;
         }
 
-
         public async Task<bool> AddProductAsync(Product product)
         {
             await context.Products.AddAsync(product);
@@ -26,7 +23,6 @@ namespace Catalog.API.Data.SqlDataStore.Repo
 
             var status = await context.SaveChangesAsync();
 
-            //var products = context.Products.ToList();
             return status > 0;
         }
 
@@ -96,11 +92,6 @@ namespace Catalog.API.Data.SqlDataStore.Repo
 
             try
             {
-                //context.Products.Attach(product);
-                //context.Entry(product).State = EntityState.Modified;
-                //context.Entry(product.Image).State = EntityState.Modified;
-
-
                 await context.SaveChangesAsync();
                 return true;
             }

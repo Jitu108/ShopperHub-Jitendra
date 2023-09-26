@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Catalog.API.ProtoService;
 using DiscountAPI.Dtos;
-using DiscountAPI.Entities;
 using DiscountAPI.Services;
 using Grpc.Net.Client;
 using Polly;

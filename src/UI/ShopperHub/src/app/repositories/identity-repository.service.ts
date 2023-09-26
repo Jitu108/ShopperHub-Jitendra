@@ -40,7 +40,6 @@ export class IdentityRepositoryService {
       );
   }
 
-
   getUserByEmail(email: string): Observable<UserModel> {
     var url: string = "https://localhost:3009/api/Identity/ByEmail/" + email;
 
@@ -50,7 +49,6 @@ export class IdentityRepositoryService {
           return throwError(errorResponse.error);
         }),
         tap(responseData => {
-          console.log(responseData);
         })
       );
   }
@@ -64,7 +62,6 @@ export class IdentityRepositoryService {
           return throwError(errorResponse.error);
         }),
         tap(responseData => {
-          console.log(responseData);
         })
       );
   }

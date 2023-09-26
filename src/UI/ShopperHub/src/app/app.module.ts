@@ -14,10 +14,12 @@ import { MatComponentsModule } from './modules/mat-components/mat-components.mod
 import { CatalogItemComponent } from './components/catalog/catalog-item/catalog-item.component';
 import { BasketComponent } from './components/basket/basket.component';
 import { OrderListComponent } from './components/order/order-list/order-list.component';
-import { UserLoginComponent } from './components/user-login/user-login.component';
+import { UserLoginComponent } from './components/user/user-login/user-login.component';
 import { CheckoutComponent } from './components/order/checkout/checkout.component';
 import { OrderSuccessComponent } from './components/order/order-success/order-success.component';
 import { OrderAddressComponent } from './components/order/order-address/order-address.component';
+import { UserRegisterComponent } from './components/user/user-register/user-register.component';
+import { OrderDetailComponent } from './components/order/order-detail/order-detail.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { OrderAddressComponent } from './components/order/order-address/order-ad
     CheckoutComponent,
     OrderSuccessComponent,
     OrderAddressComponent,
+    UserRegisterComponent,
+    OrderDetailComponent,
   ],
   imports: [
     FormsModule,

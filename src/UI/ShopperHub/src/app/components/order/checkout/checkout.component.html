@@ -2,28 +2,23 @@
     <div class="row">
         <div class="col-md-2"></div>
         <div class="mat-elevation-z0 col-md-8">
-            <div class="col-sm-12">
-                <h1 class="header">Checkout</h1>
-            </div>
-            <div class="basket-bar">
-                <label class="label-total text-dark">Total Amount: {{basketInfo.totalAmount}}</label>
-                <button class="btn btn-primary placeorder" (click)="placeorder()">Place Order</button>
-            </div>
-            <!-- <mat-form-field>
-                <mat-label>Search</mat-label>
-                <input matInput (keyup)="applyfilter($event)" placeholder="Ex. Adidas">
-            </mat-form-field> -->
-            <mat-table class="mat-elevation-z0" [dataSource]="dataSource" matSort>
-                <div>
-                    <ng-container matColumnDef="productId">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>productId
-                        </mat-header-cell>
-                        <mat-cell *matCellDef="let element">{{element.productId}}</mat-cell>
-                    </ng-container>
+            <div class="row">
+                <div class="col-md-6" header-div><span class="material-icons back-icon"
+                        (click)="onBackClick()">arrow_back</span>
+                    &nbsp;&nbsp;
+                    <span class="header">Checkout</span>
                 </div>
+                <div class="col-md-6 place-order">
+                    <label class="label-total text-dark">Total Amount: {{basketInfo.totalAmount}}</label>
+                    <button class="btn btn-success placeorder" (click)="placeorder()">Place Order</button>
+                </div>
+            </div>
+
+            <mat-table class="mat-elevation-z0" [dataSource]="dataSource" matSort>
+
                 <div>
                     <ng-container matColumnDef="productName">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>productName
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Product Name
                         </mat-header-cell>
                         <mat-cell *matCellDef="let element">{{element.productName}}</mat-cell>
                     </ng-container>
@@ -31,24 +26,24 @@
 
                 <div>
                     <ng-container matColumnDef="unitPrice">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>unitPrice
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Unit Price
                         </mat-header-cell>
-                        <mat-cell *matCellDef="let element">{{element.unitPrice}}</mat-cell>
+                        <mat-cell *matCellDef="let element">&#8377;{{element.unitPrice}}</mat-cell>
                     </ng-container>
                 </div>
 
                 <div>
                     <ng-container matColumnDef="quantity">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>quantity
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Quantity
                         </mat-header-cell>
                         <mat-cell *matCellDef="let element">{{element.quantity}}</mat-cell>
                     </ng-container>
                 </div>
                 <div>
                     <ng-container matColumnDef="totalPrice">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>totalPrice
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Total Price
                         </mat-header-cell>
-                        <mat-cell *matCellDef="let element">{{element.totalPrice}}</mat-cell>
+                        <mat-cell *matCellDef="let element">&#8377;{{element.totalPrice}}</mat-cell>
                     </ng-container>
                 </div>
 

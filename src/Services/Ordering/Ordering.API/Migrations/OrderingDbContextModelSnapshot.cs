@@ -36,9 +36,6 @@ namespace Ordering.API.Migrations
                     b.Property<string>("AddressLine2")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("AddressType")
-                        .HasColumnType("int");
-
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
@@ -51,7 +48,7 @@ namespace Ordering.API.Migrations
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PIN")
+                    b.Property<string>("Pin")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("State")
@@ -59,7 +56,8 @@ namespace Ordering.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("OrderId")
+                        .IsUnique();
 
                     b.ToTable("Address");
                 });
@@ -127,8 +125,8 @@ namespace Ordering.API.Migrations
                     b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("ProductName")
                         .HasColumnType("nvarchar(max)");
@@ -173,8 +171,8 @@ namespace Ordering.API.Migrations
             modelBuilder.Entity("Ordering.API.Data.Entities.Address", b =>
                 {
                     b.HasOne("Ordering.API.Data.Entities.Order", "Order")
-                        .WithMany("Addresses")
-                        .HasForeignKey("OrderId")
+                        .WithOne("DeliveryAddress")
+                        .HasForeignKey("Ordering.API.Data.Entities.Address", "OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -212,7 +210,7 @@ namespace Ordering.API.Migrations
 
             modelBuilder.Entity("Ordering.API.Data.Entities.Order", b =>
                 {
-                    b.Navigation("Addresses");
+                    b.Navigation("DeliveryAddress");
 
                     b.Navigation("Items");
                 });

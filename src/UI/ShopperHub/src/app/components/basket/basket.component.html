@@ -6,7 +6,7 @@
     <label class="label-sep text-secondary">|</label>
     <label class="label-total text-dark">&#8377;{{basketInfo.totalAmount}}</label>
     <label class="label-sep text-secondary">|</label>
-    <button class="btn btn-outline-primary cart-checkout" (click)="checkout()">Checkout
+    <button class="btn btn-success cart-checkout" (click)="checkout()" [disabled]="basketInfo.itemCount==0">Checkout
         <span class="checkout-icon"><mat-icon>shopping_cart_checkout</mat-icon></span>
     </button>
     <label class="label-sep text-secondary">|</label>

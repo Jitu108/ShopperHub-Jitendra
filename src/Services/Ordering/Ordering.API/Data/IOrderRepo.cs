@@ -12,6 +12,7 @@ namespace Ordering.API.Data
         Task CancelOrder(CancelledOrder order);
         Task<int> SaveChange();
         Task RefundOrder(RefundedOrder refundedOrder);
-        Task<RefundedOrder> GetRefundedOrder(int orderId);
+        Task<List<CancelledOrder>> GetCancelledOrders(int userId);
+        Task<List<RefundedOrder>> GetRefundedOrders(int userId);
     }
 }

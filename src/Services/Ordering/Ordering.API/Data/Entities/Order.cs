@@ -9,7 +9,7 @@ namespace Ordering.API.Data.Entities
         public List<OrderItem> Items { get; set; }
         public decimal TotalPrice { get; set; }
         public DateTime OrderDate { get; set; }
-        public List<Address> Addresses { get; set; }
+        public Address DeliveryAddress { get; set; }
         public PaymentMode PaymentMode { get; set; }
         public OrderStatus OrderStatus { get; set; }
     }

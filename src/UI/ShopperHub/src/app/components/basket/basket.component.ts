@@ -17,8 +17,8 @@ export class BasketComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
-    this.itemCount = 15;
-    this.totalAmount = 145;
+    // this.itemCount = 15;
+    // this.totalAmount = 145;
   }
 
   onBasketClearClick() {

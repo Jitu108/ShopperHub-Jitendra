@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Ordering.API.Data;
+using Ordering.API.InterServiceCommuncation.SyncDataService;
 using Ordering.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,8 +12,11 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 
 builder.Services.AddDbContext<OrderingDbContext>(options =>
 {
-    options.UseSqlServer(configuration.GetConnectionString("CatalogConnnection"));
+    options.UseSqlServer(configuration.GetConnectionString("OrderConnnection"));
 });
+
+// Add GRPC
+builder.Services.AddGrpc();
 
 // Register AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -25,17 +29,22 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
+if (app.Environment.IsDevelopment())
+{
     app.UseSwagger();
     app.UseSwaggerUI();
-//}
+}
 DataSeeder.Seed(app);
 
-app.UseHttpsRedirection();
-
+//app.UseHttpsRedirection();
+app.UseRouting();
 app.UseAuthorization();
 
-app.MapControllers();
+//app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapGrpcService<GrpcOrderService>();
+});
 
 app.Run();

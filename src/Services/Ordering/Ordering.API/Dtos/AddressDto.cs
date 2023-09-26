@@ -9,6 +9,6 @@
         public string AddressLine2 { get; set; }
         public string City { get; set; }
         public string State { get; set; }
-        public string PIN { get; set; }
+        public string Pin { get; set; }
     }
 }

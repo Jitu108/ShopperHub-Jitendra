@@ -31,7 +31,8 @@
     <Protobuf Include="ProtoClient\GrpcCatalogTypeProvider.proto" GrpcServices="Client" />
     <Protobuf Include="ProtoClient\GrpcDiscountProductProvider.proto" GrpcServices="Client" />
 	<Protobuf Include="ProtoClient\GrpcBasketProvider.proto" GrpcServices="Client" />
-	  <Protobuf Include="ProtoClient\GrpcIdentityProvider.proto" GrpcServices="Client" />
+	<Protobuf Include="ProtoClient\GrpcIdentityProvider.proto" GrpcServices="Client" />
+	<Protobuf Include="ProtoClient\GrpcOrderProvider.proto" GrpcServices="Client" />
   </ItemGroup>
 
 </Project>

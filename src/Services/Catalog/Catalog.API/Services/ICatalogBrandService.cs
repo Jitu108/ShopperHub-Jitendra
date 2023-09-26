@@ -1,5 +1,4 @@
 using Catalog.API.Dtos;
-using Catalog.API.Entities;
 
 namespace Catalog.API.Services
 {

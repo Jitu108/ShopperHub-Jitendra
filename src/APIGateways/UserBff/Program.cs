@@ -8,18 +8,21 @@ using UserBff.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var Configuration = builder.Configuration;
+
 // Add services to the container.
 builder.Services.AddScoped<ICatalogProductClient, GrpcCatalogProductClient>();
 builder.Services.AddScoped<ICatalogBrandClient, GrpcCatalogBrandClient>();
 builder.Services.AddScoped<ICatalogTypeClient, GrpcCatalogTypeClient>();
 builder.Services.AddScoped<IBasketClient, GrpcBasketClient>();
 builder.Services.AddScoped<IIdentityClient, GrpcIdentityClient>();
+builder.Services.AddScoped<IOrderClient, GrpcOrderClient>();
 
 builder.Services.AddScoped<ICatalogProductService, CatalogProductService>();
 builder.Services.AddScoped<ICatalogBrandService, CatalogBrandService>();
 builder.Services.AddScoped<ICatalogTypeService, CatalogTypeService>();
 builder.Services.AddScoped<IBasketService, BasketService>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 // Register Automapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

@@ -5,7 +5,6 @@
         public long Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        //[Column(TypeName = "decimal(18,4)")]
         public Nullable<decimal> Price { get; set; }
         public decimal MRP { get; set; }
         public long CatalogTypeId { get; set; }

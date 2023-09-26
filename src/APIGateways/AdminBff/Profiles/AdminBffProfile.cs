@@ -2,6 +2,7 @@
 using AutoMapper;
 using Catalog.API.ProtoService;
 using DiscountAPI.ProtoService;
+using Identity.API.ProtoService;
 
 namespace AdminBff.Profiles
 {
@@ -74,8 +75,13 @@ namespace AdminBff.Profiles
             CreateMap<GrpcProductDiscount, ProductDiscount>()
                 .ForMember(dest => dest.MRP, option => option.MapFrom(src => src.Mrp));
 
-
             CreateMap<DiscountUpdateDto, GrpcDiscountUpdate>();
+
+            // Identity
+            CreateMap<GrpcIdentityUser, UserDto>();
+            CreateMap<GrpcIdentityAuthenticateResponse, AuthUserDto>()
+                .ForMember(dest => dest.ExpiryDate, options => options.MapFrom(src => src.ExpiryDate.ToDateTime()));
+
         }
     }
 }

@@ -2,7 +2,7 @@
 {
     public enum PaymentMode
     {
-        Cash = 1,
+        COD = 1,
         CreditCard = 2,
         DebitCard = 3,
         NetBanking = 4,

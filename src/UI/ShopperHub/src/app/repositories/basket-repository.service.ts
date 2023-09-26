@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { CartItem } from 'src/models/cart-item';
 import { ShoppingCart } from 'src/models/shopping-cart';
 
 @Injectable({
@@ -21,7 +20,6 @@ export class BasketRepositoryService {
           return throwError(errorResponse.error);
         }),
         tap(responseData => {
-          console.log(responseData);
         })
       );
   }

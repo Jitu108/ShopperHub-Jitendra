@@ -1,6 +1,6 @@
 <header>
     <nav class="navbar navbar-expand-sm sm-primary">
-        <div matRipple><a class="navbar-brand" routerLink="/">&nbsp; &nbsp; ShopperHub</a>
+        <div matRipple><a class="navbar-brand" routerLink="/products">&nbsp; &nbsp; ShopperHub</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle Navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -11,21 +11,30 @@
                 <li *ngIf="!authUser" matRipple class="nav-item" [routerLinkActive]="['active']">
                     <a class="nav-link" routerLink="/login">Login</a>
                 </li>
+                <li *ngIf="!authUser" matRipple class="nav-item" [routerLinkActive]="['active']">
+                    <a class="nav-link" routerLink="/register">Register</a>
+                </li>
             </ul>
-            <ul class="navbar-nav mr-auto">
+            <!-- <ul class="navbar-nav mr-auto">
                 <li *ngIf="authUser" matRipple class="nav-item" [routerLinkActive]="['active']">
                     <a class="nav-link" routerLink="/products">Products</a>
                 </li>
-            </ul>
+            </ul> -->
         </div>
 
         <ul class="nav navbar-nav navbar-right">
 
             <li *ngIf="authUser" ngbDropdown class="nav-item dropdown">
-                <a class="nav-link" id="userdropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ authUser.firstName }} {{ authUser.lastName }} <span class="caret"></span>
+                <a class="nav-link orders" id="userdropdown" aria-haspopup="true" aria-expanded="false"
+                    (click)="gotOrders()">
+                    Orders &nbsp; |
                 </a>
+            </li>
 
+            <li *ngIf="authUser" ngbDropdown class="nav-item dropdown">
+                <a class="nav-link" id="userdropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ authUser.firstName }} {{ authUser.lastName }} &nbsp; |
+                </a>
             </li>
 
             <li *ngIf="authUser" ngbDropdown class="nav-item">
@@ -33,6 +42,7 @@
                     (click)="logout()">
                     Logout
                 </a>
+            </li>
         </ul>
     </nav>
 </header>
