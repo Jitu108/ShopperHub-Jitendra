@@ -44,7 +44,6 @@ export class OrderDetailComponent implements OnInit {
     });
   }
   requestRefund(orderId: number) {
-    debugger;
     var req = new RefundRequestModel(orderId);
     this.orderService.RefundOrder(req).subscribe(x => {
       this.router.navigate(['/order-list'])

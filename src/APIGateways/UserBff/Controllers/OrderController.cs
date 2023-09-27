@@ -45,7 +45,7 @@ namespace UserBff.Controllers
         }
 
         [HttpPost("RefundOrder", Name = "RefundOrder")]
-        public async Task<IActionResult> RefundOrder(refundRequestDto req)
+        public async Task<IActionResult> RefundOrder(RefundRequestDto req)
         {
             var orderStatus = await orderService.RefundOrder(req.OrderId);
             var status = new OrderStatusDto { OrderStatus = orderStatus.ToString() };

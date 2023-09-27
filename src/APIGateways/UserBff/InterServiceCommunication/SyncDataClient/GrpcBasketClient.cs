@@ -30,7 +30,7 @@ namespace UserBff.InterServiceCommunication.SyncDataClient
                 .Handle<Exception>()
                 .WaitAndRetryAsync(2, retryAttempt =>
                 {
-                    logger.LogWarning($"=======> Trying to Get Cart from Basket Service - Request Retry: {retryAttempt}");
+                    logger.LogWarning($"=======> Trying to Delete Basket from Basket Service - Request Retry: {retryAttempt}");
                     return TimeSpan.FromSeconds(Math.Pow(2, retryAttempt));
                 });
 
@@ -49,7 +49,7 @@ namespace UserBff.InterServiceCommunication.SyncDataClient
             }
             catch (Exception ex)
             {
-                logger.LogError($" =======> Could not Cart from Basket", ex.Message);
+                logger.LogError($" =======> Could not Delete Basket from Basket Service", ex.Message);
             }
 
             return status;
@@ -77,14 +77,12 @@ namespace UserBff.InterServiceCommunication.SyncDataClient
                     var request = new GrpcGetBasketRequest { UserId = userId };
                     var cartResponse = await client.GrpcGetBasketAsync(request);
                     cart = mapper.Map<ShoppingCartDto>(cartResponse);
-                    //var items = mapper.Map<List<ShoppingCartItemDto>>(cartResponse.Items);
-                    //items.ForEach(x => cart.Items.Add(x));
 
                 });
             }
             catch (Exception ex)
             {
-                logger.LogError($" =======> Could not Cart from Basket", ex.Message);
+                logger.LogError($" =======> Could not Get Cart from Basket Service", ex.Message);
             }
 
             return cart;
@@ -98,7 +96,7 @@ namespace UserBff.InterServiceCommunication.SyncDataClient
                 .Handle<Exception>()
                 .WaitAndRetryAsync(2, retryAttempt =>
                 {
-                    logger.LogWarning($"=======> Trying to Get Cart from Basket Service - Request Retry: {retryAttempt}");
+                    logger.LogWarning($"=======> Trying to Update Cart to Basket Service - Request Retry: {retryAttempt}");
                     return TimeSpan.FromSeconds(Math.Pow(2, retryAttempt));
                 });
 
@@ -117,7 +115,7 @@ namespace UserBff.InterServiceCommunication.SyncDataClient
             }
             catch (Exception ex)
             {
-                logger.LogError($" =======> Could not Cart from Basket", ex.Message);
+                logger.LogError($" =======> Could not Update Cart to Basket", ex.Message);
             }
 
             return status;

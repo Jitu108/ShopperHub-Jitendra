@@ -12,7 +12,6 @@ export class UserLoginComponent implements OnInit {
 
   public error: { hasError: boolean, message: string } = { hasError: false, message: "" };
 
-
   Email: string = 'gupta.jitendra108@gmail.com';
   Password: string = 'test';
   constructor(private identityService: IdentityService, private router: Router) { }

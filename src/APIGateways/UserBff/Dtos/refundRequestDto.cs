@@ -1,6 +1,6 @@
 ﻿namespace UserBff.Dtos
 {
-    public class refundRequestDto
+    public class RefundRequestDto
     {
         public int OrderId { get; set; }
     }

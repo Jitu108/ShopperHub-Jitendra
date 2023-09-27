@@ -44,7 +44,7 @@ export class OrderAddressComponent implements OnInit {
 
     this.orderCreate.items = orderItems;
     this.orderCreate.deliveryAddress = this.address;
-    this.orderCreate.paymentMode = "UPI";
+    this.orderCreate.paymentMode = "COD";
     this.orderCreate.totalPrice = orderItems.reduce((sum, current) => sum + current.unitPrice * current.quantity, 0);
     this.orderCreate.userId = this.cart.userId;
   }

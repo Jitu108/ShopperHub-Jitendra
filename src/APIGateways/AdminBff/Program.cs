@@ -63,7 +63,6 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddControllers();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
 #region Swagger Gen
@@ -98,7 +97,6 @@ builder.Services.AddSwaggerGen(options =>
                     });
 });
 #endregion
-
 
 var app = builder.Build();
 

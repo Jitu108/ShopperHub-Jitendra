@@ -30,7 +30,7 @@ namespace UserBff.InterServiceCommunication.SyncDataClient
                 .Handle<Exception>()
                 .WaitAndRetryAsync(2, retryAttempt =>
                 {
-                    logger.LogWarning($"=======> Trying to Product From Discount Service - Request Retry: {retryAttempt}");
+                    logger.LogWarning($"=======> Trying to Get Product From Discount Service - Request Retry: {retryAttempt}");
                     return TimeSpan.FromSeconds(Math.Pow(2, retryAttempt));
                 });
 
@@ -49,7 +49,7 @@ namespace UserBff.InterServiceCommunication.SyncDataClient
             }
             catch (Exception ex)
             {
-                logger.LogError($" =======> Could not add Brand to Catalog", ex.Message);
+                logger.LogError($" =======> Could not Get Product From Discount Service", ex.Message);
             }
 
             return productdiscounts;
@@ -63,7 +63,7 @@ namespace UserBff.InterServiceCommunication.SyncDataClient
                 .Handle<Exception>()
                 .WaitAndRetryAsync(2, retryAttempt =>
                 {
-                    logger.LogWarning($"=======> Trying to Product From Discount Service - Request Retry: {retryAttempt}");
+                    logger.LogWarning($"=======> Trying to Update Product From Discount Service - Request Retry: {retryAttempt}");
                     return TimeSpan.FromSeconds(Math.Pow(2, retryAttempt));
                 });
 
@@ -82,7 +82,7 @@ namespace UserBff.InterServiceCommunication.SyncDataClient
             }
             catch (Exception ex)
             {
-                logger.LogError($" =======> Could not add Brand to Catalog", ex.Message);
+                logger.LogError($" =======> Could not Update Product From Discount Service", ex.Message);
             }
 
             return status;

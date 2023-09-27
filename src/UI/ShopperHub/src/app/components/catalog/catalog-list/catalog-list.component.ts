@@ -112,7 +112,6 @@ export class CatalogListComponent implements OnInit {
 
     this.shoppingCart.totalPrice = this.shoppingCart.items.reduce((sum, current) => sum + current.unitPrice * current.quantity, 0);
     this.basketService.UpdateBasket(this.shoppingCart).subscribe();
-    console.log(this.shoppingCart);
   }
 
   clearBasket() {

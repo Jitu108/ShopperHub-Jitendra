@@ -165,7 +165,7 @@ namespace UserBff.InterServiceCommunication.SyncDataClient
                 .Handle<Exception>()
                 .WaitAndRetryAsync(2, retryAttempt =>
                 {
-                    logger.LogWarning($"=======> Trying to Add Product From Catalog Service - Request Retry: {retryAttempt}");
+                    logger.LogWarning($"=======> Trying to Add Product To Catalog Service - Request Retry: {retryAttempt}");
                     return TimeSpan.FromSeconds(Math.Pow(2, retryAttempt));
                 });
 

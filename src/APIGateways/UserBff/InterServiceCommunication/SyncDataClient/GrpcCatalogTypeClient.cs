@@ -30,7 +30,7 @@ namespace UserBff.InterServiceCommunication.SyncDataClient
                 .Handle<Exception>()
                 .WaitAndRetryAsync(2, retryAttempt =>
                 {
-                    logger.LogWarning($"=======> Trying to Add Type From Catalog Service - Request Retry: {retryAttempt}");
+                    logger.LogWarning($"=======> Trying to Add Type to Catalog Service - Request Retry: {retryAttempt}");
                     return TimeSpan.FromSeconds(Math.Pow(2, retryAttempt));
                 });
 
@@ -81,7 +81,7 @@ namespace UserBff.InterServiceCommunication.SyncDataClient
             }
             catch (Exception ex)
             {
-                logger.LogError($" =======> Could not Type Brand to Catalog", ex.Message);
+                logger.LogError($" =======> Could not Delete Type From Catalog Service", ex.Message);
             }
             return status;
         }
@@ -94,7 +94,7 @@ namespace UserBff.InterServiceCommunication.SyncDataClient
                 .Handle<Exception>()
                 .WaitAndRetryAsync(2, retryAttempt =>
                 {
-                    logger.LogWarning($"=======> Getting Brands From Catalog Service - Request Retry: {retryAttempt}");
+                    logger.LogWarning($"=======> Trying to Get Type From Catalog Service - Request Retry: {retryAttempt}");
                     return TimeSpan.FromSeconds(Math.Pow(2, retryAttempt));
                 });
 
@@ -114,7 +114,7 @@ namespace UserBff.InterServiceCommunication.SyncDataClient
             }
             catch (Exception ex)
             {
-                logger.LogError($" =======> Brands from Catalog could not be retrived", ex.Message);
+                logger.LogError($" =======> Could not Get Type From Catalog Service", ex.Message);
             }
 
             return type;
@@ -128,7 +128,7 @@ namespace UserBff.InterServiceCommunication.SyncDataClient
                 .Handle<Exception>()
                 .WaitAndRetryAsync(2, retryAttempt =>
                 {
-                    logger.LogWarning($"=======> Getting Type From Catalog Service - Request Retry: {retryAttempt}");
+                    logger.LogWarning($"=======> Trying to Get Types From Catalog Service - Request Retry: {retryAttempt}");
                     return TimeSpan.FromSeconds(Math.Pow(2, retryAttempt));
                 });
 
@@ -147,7 +147,7 @@ namespace UserBff.InterServiceCommunication.SyncDataClient
             }
             catch (Exception ex)
             {
-                logger.LogError($" =======> Type from Catalog could not be retrived", ex.Message);
+                logger.LogError($" =======> Could not Get Types From Catalog Service", ex.Message);
             }
 
             return types;
@@ -161,7 +161,7 @@ namespace UserBff.InterServiceCommunication.SyncDataClient
                 .Handle<Exception>()
                 .WaitAndRetryAsync(2, retryAttempt =>
                 {
-                    logger.LogWarning($"=======> Trying to Add Brand From Catalog Service - Request Retry: {retryAttempt}");
+                    logger.LogWarning($"=======> Trying to Update Type From Catalog Service - Request Retry: {retryAttempt}");
                     return TimeSpan.FromSeconds(Math.Pow(2, retryAttempt));
                 });
 
@@ -180,7 +180,7 @@ namespace UserBff.InterServiceCommunication.SyncDataClient
             }
             catch (Exception ex)
             {
-                logger.LogError($" =======> Could not add Brand to Catalog", ex.Message);
+                logger.LogError($" =======> Could not Update Type From Catalog Service", ex.Message);
             }
 
             return status;

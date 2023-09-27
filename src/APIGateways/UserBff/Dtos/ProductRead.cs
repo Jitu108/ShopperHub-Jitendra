@@ -16,11 +16,9 @@
         // Available stock at which we should reorder
         public int RestockThreshold { get; set; }
         public int MaxStockThreshold { get; set; }
-        //public bool OnReorder { get; set; }
         public int ImageId { get; set; }
         public string ImageName { get; set; }
         public string ImageCaption { get; set; }
-        //public string ImageContentType { get; set; }
         public string ImageData { get; set; }
     }
 }

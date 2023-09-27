@@ -1,18 +1,8 @@
-// /* You can add global styles to this file, and also import other style files */
-
-// /* Importing Bootstrap SCSS file. */
-// @import '~bootstrap/scss/bootstrap';
-
-// html, body { height: 100%; }
-// body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-
 @import "https://fonts.googleapis.com/icon?family=Material+Icons";
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 @import "~bootstrap/dist/css/bootstrap.css";
 
 $ionicons-font-path: "~ionicons/dist/fonts";
-//@import "~ionicons/dist/scss/ionicons.scss";
 
 @import '_variables';
 @import '_reset';
@@ -26,96 +16,6 @@ $ionicons-font-path: "~ionicons/dist/fonts";
         background-color: $c30;
     }
 }
-
-// button {
-//     outline: none;
-
-//     &:hover {
-//         outline: none;
-//     }
-
-//     &:active {
-//         outline: none;
-//     }
-
-//     &:focus {
-//         outline: none;
-//     }
-
-//     &:visited {
-//         outline: none;
-//     }
-// }
-
-// .btn-primary {
-//     background-color: $c60;
-//     border-color: $c60;
-
-//     &:hover {
-//         background-color: $c61;
-//         border-color: $c61;
-//     }
-
-//     &:active {
-//         background-color: $c61 !important;
-//         border-color: $c61 !important;
-//     }
-
-//     &:focus {
-//         background-color: $c61;
-//         border-color: $c61;
-//     }
-
-//     &:visited {
-//         background-color: $c60;
-//         border-color: $c60;
-//     }
-// }
-
-// .btn-basic {
-//     background-color: $c00;
-//     border-color: $c00;
-
-//     &:hover {
-//         background-color: $c01;
-//         border-color: $c01;
-//     }
-
-//     &:active {
-//         background-color: $c01 !important;
-//         border-color: $c01 !important;
-//     }
-
-//     &:focus {
-//         background-color: $c01;
-//         border-color: $c01;
-//     }
-
-//     &:visited {
-//         background-color: $c00;
-//         border-color: $c00;
-//     }
-// }
-
-// .btn-info {
-//     background-color: $c70;
-//     border-color: $c70;
-
-//     &:hover {
-//         background-color: $c71;
-//         border-color: $c71;
-//     }
-// }
-
-// .btn-danger {
-//     background-color: $c80;
-//     border-color: $c80;
-
-//     &:hover {
-//         background-color: $c81;
-//         border-color: $c81;
-//     }
-// }
 
 h3.header {
     height: 40px;
@@ -141,22 +41,21 @@ h2.header {
 
 
 // Mat-table related styles - Start
-$odd-row-color: #eef5fe; //#eee;
+$odd-row-color: #eef5fe;
 $even-row-color: #F2F8F8;
 $row-deleted-color: #fbdcdc;
 
-$hover-color: #accdfe; //#C5EAEC;
+$hover-color: #accdfe;
 $hover-deleted-color: #fbcaca;
 
-$row-selection-color: #accdfe; //#3fbac2;
+$row-selection-color: #accdfe;
 $row-deleted-selection-color: #f7baba;
 
-$header-color: #69a5fe; //#C5EAEC;
+$header-color: #69a5fe;
 $paginator-color: #e2edee;
 
 
 .mat-header-row {
-    //min-height: 50px;
     background-color: $header-color;
 }
 

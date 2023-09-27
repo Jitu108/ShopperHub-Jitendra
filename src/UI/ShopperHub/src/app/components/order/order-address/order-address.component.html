@@ -1,4 +1,3 @@
-<!-- <div class="d-flex justify-content-center vw-100 mt-5"> -->
 <div class="row vw-100 mt-1">
     <div class="col-md-3"></div>
     <div class="col-md-6">
@@ -12,7 +11,6 @@
             <div>
                 <form id="addressForm" #addressForm="ngForm" (ngSubmit)="onSaveAddressClick(addressForm)">
                     <mat-card>
-                        <!-- <legend class="scheduler-border">Address & Payment Info</legend> -->
                         <div class="m-3">
                             <div *ngIf="error.hasError" class="alert alert-danger">{{error.message}}</div>
 
@@ -80,5 +78,4 @@
         </div>
     </div>
     <div class="col-md-3"></div>
-
 </div>
