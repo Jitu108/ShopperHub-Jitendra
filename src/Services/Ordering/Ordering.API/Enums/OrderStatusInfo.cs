@@ -10,6 +10,7 @@
         OrderCouldNotBeRefundedBecauseItIsNotCancelled = 6,
         OrderCouldNotBeCancelledBecauseItIsDelivered = 7,
         OrderCouldNotBeCancelledBecauseItIsAlreadyCancelled = 8,
-        OrderCouldNotBeCancelledBecauseItIsAlreadyRefunded = 9
+        OrderCouldNotBeCancelledBecauseItIsAlreadyRefunded = 9,
+        OrderCancellatinRequested
     }
 }
